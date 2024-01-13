@@ -18,8 +18,19 @@ public class User {
     private Integer age;
     @Column(name = "phone")
     private String phone;
+    @Column(name = "role")
+    private String role;
+
     @Transient
     private String token;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public Integer getId() {
         return id;
@@ -69,13 +80,14 @@ public class User {
         this.phone = phone;
     }
 
-    public User(Integer id, String name, String password, String sex, Integer age, String phone) {
+    public User(Integer id, String name, String password, String sex, Integer age, String phone,String role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.sex = sex;
         this.age = age;
         this.phone = phone;
+        this.role=role;
     }
 
     public String getToken() {

@@ -59,4 +59,11 @@ public class UserController {
         userService.delete(id);
         return Result.success();
     }
+    @PutMapping("/delBatch")
+    public Result delBatch(@RequestBody List<User> list) {
+        for (User user : list) {
+            userService.delete(user.getId());
+        }
+        return Result.success();
+    }
 }

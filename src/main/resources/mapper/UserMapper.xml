@@ -9,6 +9,7 @@
     <select id="findBySearch" resultType="com.liu.practice.entity.User">
         select * from user
         <where>
+            role != 'ROLE_ADMIN'
             <if test="params != null and params.name != null and params.name != ''">
                 and name like concat('%', #{ params.name }, '%')
             </if>
