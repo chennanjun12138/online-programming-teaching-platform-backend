@@ -16,6 +16,9 @@
             <if test="params != null and params.phone != null and params.phone != ''">
                 and phone like concat('%', #{ params.phone }, '%')
             </if>
+            <if test="params != null and params.role != null and params.role != ''">
+                and role like concat('%', #{ params.role }, '%')
+            </if>
         </where>
     </select>
 </mapper>

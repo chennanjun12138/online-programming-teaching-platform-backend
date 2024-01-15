@@ -77,4 +77,7 @@ public class UserService {
     {
         return userDao.selectByPrimaryKey(id);
     }
+    public User findByname(String name){
+        return userDao.findByName(name);
+    }
 }

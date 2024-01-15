@@ -20,9 +20,19 @@ public class User {
     private String phone;
     @Column(name = "role")
     private String role;
+    @Column(name = "photo")
+    private String photo;
 
     @Transient
     private String token;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getRole() {
         return role;
@@ -80,7 +90,7 @@ public class User {
         this.phone = phone;
     }
 
-    public User(Integer id, String name, String password, String sex, Integer age, String phone,String role) {
+    public User(Integer id, String name, String password, String sex, Integer age, String phone,String role,String photo) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -88,6 +98,7 @@ public class User {
         this.age = age;
         this.phone = phone;
         this.role=role;
+        this.photo=photo;
     }
 
     public String getToken() {

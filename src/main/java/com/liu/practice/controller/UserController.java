@@ -44,6 +44,13 @@ public class UserController {
         PageInfo<User> list = userService.findBySearch(params);
         return Result.success(list);
     }
+
+     @GetMapping("/{username}")
+     public Result findByname(@PathVariable  String username)
+     {
+            User user=userService.findByname(username);
+            return Result.success(user);
+     }
     @PostMapping()
     public Result save(@RequestBody User user) {
         log.info("拦截器已放行");

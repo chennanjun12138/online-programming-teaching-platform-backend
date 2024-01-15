@@ -5,8 +5,17 @@ public class Params {
         private String name;
         private String phone;
         private String author;
+        private String role;
         private Integer pageNum;
         private Integer pageSize;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getAuthor() {
         return author;
