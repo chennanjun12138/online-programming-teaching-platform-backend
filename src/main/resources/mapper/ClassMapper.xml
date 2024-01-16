@@ -10,6 +10,9 @@
             <if test="params != null and params.author != null and params.author != ''">
                 and author like concat('%', #{ params.author }, '%')
             </if>
+            <if test="params != null and params.sort != null and params.sort != ''">
+                and sort like concat('%', #{ params.sort  }, '%')
+            </if>
         </where>
     </select>
 </mapper>

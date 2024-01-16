@@ -5,6 +5,7 @@ import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
 import com.liu.practice.entity.Class;
 import com.liu.practice.entity.Params;
+import com.liu.practice.entity.User;
 import com.liu.practice.service.ClassService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,13 @@ public class ClassController {
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
         classService.delete(id);
+        return Result.success();
+    }
+    @PutMapping("/delBatch")
+    public Result delBatch(@RequestBody List<Class> list) {
+        for (Class cl : list) {
+            classService.delete(cl.getId());
+        }
         return Result.success();
     }
 }

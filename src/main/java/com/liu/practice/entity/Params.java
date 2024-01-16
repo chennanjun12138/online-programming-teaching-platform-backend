@@ -5,9 +5,27 @@ public class Params {
         private String name;
         private String phone;
         private String author;
+        private String creator;
         private String role;
+        private String sort;
         private Integer pageNum;
         private Integer pageSize;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
     public String getRole() {
         return role;
