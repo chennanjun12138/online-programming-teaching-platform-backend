@@ -11,7 +11,7 @@ public class Questionbank {
     private Integer id;
 
     @Column(name = "questionid")
-    private Integer questionid;
+    private String questionid;
     @Column(name = "name")
     private String name;
     @Column(name = "creator")
@@ -25,6 +25,14 @@ public class Questionbank {
     @Column(name = "belongid")
     private Integer belongid;
 
+    public String getQuestionid() {
+        return questionid;
+    }
+
+    public void setQuestionid(String questionid) {
+        this.questionid = questionid;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -33,13 +41,7 @@ public class Questionbank {
         this.id = id;
     }
 
-    public Integer getQuestionid() {
-        return questionid;
-    }
 
-    public void setQuestionid(Integer questionid) {
-        this.questionid = questionid;
-    }
 
     public String getName() {
         return name;

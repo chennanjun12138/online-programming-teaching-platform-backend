@@ -1,15 +1,35 @@
 package com.liu.practice.entity;
 
+import java.util.List;
+
 public class Params {
 
         private String name;
         private String phone;
         private String author;
         private String creator;
+        private String teacher;
         private String role;
         private String sort;
+        private String content;
         private Integer pageNum;
         private Integer pageSize;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
 
     public String getCreator() {
         return creator;

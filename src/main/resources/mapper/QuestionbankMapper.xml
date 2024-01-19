@@ -13,4 +13,10 @@
 
         </where>
     </select>
+    <select id="findByhomework" resultType="com.liu.practice.entity.Questionbank">
+        select * from questionbank
+        <where>
+            questionid =#{content}
+        </where>
+    </select>
 </mapper>

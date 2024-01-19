@@ -1,11 +1,14 @@
 package com.liu.practice.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.Questionbank;
 import com.liu.practice.entity.User;
 import com.liu.practice.service.QuersionbankService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,15 +25,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/questionbank")
 public class QuestionbankController {
+    private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
+
     @Resource
     private QuersionbankService quersionbankService;
 
     @GetMapping("/search")
     public Result findBySearch(Params params) {
+       // log.info("s1");
         PageInfo<Questionbank> info = quersionbankService.findBySearch(params);
         return Result.success(info);
     }
-
+    @GetMapping("/homework")
+    public Result findByhomework(Params params) {
+        log.info("s2");
+        PageInfo<Questionbank> info = quersionbankService.findByhomework(params);
+       // log.info(params.getContent().toString());
+        return Result.success(info);
+    }
     @PostMapping
     public Result save(@RequestBody Questionbank questionbank) {
         if (questionbank.getId() == null) {
