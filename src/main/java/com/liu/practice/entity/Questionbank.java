@@ -23,7 +23,7 @@ public class Questionbank {
     @Column(name = "createtime")
     private String createtime;
     @Column(name = "belongid")
-    private Integer belongid;
+    private String belongid;
 
     public String getQuestionid() {
         return questionid;
@@ -83,11 +83,11 @@ public class Questionbank {
         this.createtime = createtime;
     }
 
-    public Integer getBelongid() {
+    public String getBelongid() {
         return belongid;
     }
 
-    public void setBelongid(Integer belongid) {
+    public void setBelongid(String belongid) {
         this.belongid = belongid;
     }
 }

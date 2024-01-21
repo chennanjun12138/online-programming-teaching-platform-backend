@@ -10,7 +10,7 @@
                 and name like concat('%', #{ params.name }, '%')
             </if>
             <if test="params != null and params.teacher != null and params.teacher != ''">
-                and author like concat('%', #{ params.teacher }, '%')
+                and teacher like concat('%', #{ params.teacher }, '%')
             </if>
         </where>
     </select>

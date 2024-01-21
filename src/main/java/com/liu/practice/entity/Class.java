@@ -17,6 +17,16 @@ public class Class {
     private String author;
     @Column(name = "img")
     private String img;
+    @Column(name="content")
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Integer getId() {
         return id;
