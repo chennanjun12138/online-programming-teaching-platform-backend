@@ -14,7 +14,12 @@
             </if>
         </where>
     </select>
-
+    <select id="findByteacher" resultType="com.liu.practice.entity.Homework">
+        select * from homework
+        <where>
+            teacher=#{teacher}
+        </where>
+    </select>
 
     <select id="update" resultType="com.liu.practice.entity.Homework">
         UPDATE homework
@@ -23,4 +28,5 @@
                 id=#{id}
          </where>
     </select>
+
 </mapper>

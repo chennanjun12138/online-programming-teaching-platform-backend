@@ -16,12 +16,10 @@ import java.util.List;
 public class QuersionService {
        @Resource
        private QuestionDao questionDao;
-        public PageInfo<Question> findBySearch(Params params) {
-            // 开启分页查询
-            PageHelper.startPage(params.getPageNum(), params.getPageSize());
-            // 接下来的查询会自动按照当前开启的分页设置来查询
-            List<Question> list = questionDao.findBySearch(params);
-            return PageInfo.of(list);
+        public  Question  findBySearch(Params params) {
+
+             Question  question = questionDao.findBySearch(params.getQuestionid());
+            return question;
      }
 
         public void add(Question book) {

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface QuestionDao extends Mapper<Question> {
-    List<Question> findBySearch(@Param("params") Params params);
+    Question  findBySearch(String id);
 
 }

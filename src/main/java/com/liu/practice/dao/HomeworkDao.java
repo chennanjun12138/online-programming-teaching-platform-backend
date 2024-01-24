@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface HomeworkDao extends Mapper<Homework> {
     List<Homework> findBySearch(@Param("params") Params params);
+    List<Homework> findByteacher(String teacher);
     void update(Integer id,String content);
+   // void insertData(@Param("params") Homework params);
 
 }

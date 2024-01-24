@@ -38,9 +38,16 @@ public class QuestionbankController {
     }
     @GetMapping("/homework")
     public Result findByhomework(Params params) {
-        log.info("s2");
+
         PageInfo<Questionbank> info = quersionbankService.findByhomework(params);
        // log.info(params.getContent().toString());
+        return Result.success(info);
+    }
+    @GetMapping("/findbyid")
+    public Result findByid(Params params) {
+        log.info(params.getContent());
+        Questionbank  info = quersionbankService.findbyid(params);
+        // log.info(params.getContent().toString());
         return Result.success(info);
     }
     @PostMapping

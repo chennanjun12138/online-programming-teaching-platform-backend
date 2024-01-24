@@ -9,11 +9,38 @@ public class Params {
         private String author;
         private String creator;
         private String teacher;
+        private String teachername;
+        private String studentid;
+        private String questionid;
         private String role;
         private String sort;
         private String content;
         private Integer pageNum;
         private Integer pageSize;
+
+    public String getQuestionid() {
+        return questionid;
+    }
+
+    public void setQuestionid(String questionid) {
+        this.questionid = questionid;
+    }
+
+    public String getTeachername() {
+        return teachername;
+    }
+
+    public void setTeachername(String teachername) {
+        this.teachername = teachername;
+    }
+
+    public String getStudentid() {
+        return studentid;
+    }
+
+    public void setStudentid(String studentid) {
+        this.studentid = studentid;
+    }
 
     public String getContent() {
         return content;

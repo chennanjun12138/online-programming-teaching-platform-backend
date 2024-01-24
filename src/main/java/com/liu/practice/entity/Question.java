@@ -13,7 +13,7 @@ public class Question {
     private String input;
     @Column(name = "output")
     private String output;
-    @Column(columnDefinition = "json")
+    @Column(name="condition")
     private String condition;
     @Column(name = "exampleout")
     private String exampleout;
