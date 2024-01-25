@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.practice.dao.SubmitDao">
+    <select id="findBySearch" resultType="com.liu.practice.entity.Submit">
+        select * from submit
+        <where>
+                homeworkid=#{homeworkid}
+        </where>
+    </select>
+
+    <select id="findbystudent" resultType="com.liu.practice.entity.Submit">
+        select * from submit
+        <where>
+
+            <if test="params != null and params.userid != null and params.userid != ''">
+                and  userid=#{ params.userid }
+            </if>
+            <if test="params != null and params.homeworkid != null and params.homeworkid != ''">
+                and homeworkid =#{ params.homeworkid}
+            </if>
+
+        </where>
+    </select>
+</mapper>

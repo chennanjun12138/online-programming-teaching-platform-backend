@@ -4,9 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.dao.HomeworkDao;
+import com.liu.practice.dao.SubmitDao;
 import com.liu.practice.entity.Homework;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.Questionbank;
+import com.liu.practice.entity.Submit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,10 @@ import java.util.List;
 public class HomeworkService {
     private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
-    @Resource
+       @Resource
        private HomeworkDao homeworkDao;
+       @Resource
+       private SubmitDao submitDao;
         public PageInfo<Homework> findBySearch(Params params) {
             // 开启分页查询
             PageHelper.startPage(params.getPageNum(), params.getPageSize());
@@ -33,12 +37,10 @@ public class HomeworkService {
         // 开启分页查询
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         // 接下来的查询会自动按照当前开启的分页设置来查询
-
         //  List<String> list = JSON.parseArray(steelGrade, String.class);
         String values =params.getTeacher(); // 去除空格
         //分割字符串
         String[] valueArray = values.split(",");
-
         List<String> list = new ArrayList<>();
         for (String value : valueArray) {
             list.add(value.trim());
@@ -56,15 +58,38 @@ public class HomeworkService {
                      res.add(s1);
                  }
              }
-
         }
          return PageInfo.of(res);
+    }
+    public PageInfo<Submit> findsubmits(Params params) {
+        // 开启分页查询
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+
+        List<Submit> res=submitDao.findBySearch(params.getHomeworkid());
+
+        return PageInfo.of(res);
+    }
+    public PageInfo<Submit> findbystudent(Params params) {
+        // 开启分页查询
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+
+        List<Submit> res=submitDao.findbystudent(params);
+
+        return PageInfo.of(res);
     }
         public void add(Homework book) {
 
              homeworkDao.insertSelective(book);
         }
-
+        public void addsubmit(Submit submit)
+        {
+              submitDao.insertSelective(submit);
+        }
+        public void changesubmit(Submit submit)
+        {
+            log.info(submit.getScore());
+            submitDao.updateByPrimaryKeySelective(submit);
+        }
         public void update(Homework book) {
             homeworkDao.updateByPrimaryKeySelective(book);
          }

@@ -12,11 +12,56 @@ public class Params {
         private String teachername;
         private String studentid;
         private String questionid;
+        private Integer homeworkid;
+        private Integer userid;
         private String role;
         private String sort;
         private String content;
         private Integer pageNum;
         private Integer pageSize;
+        private Integer classid;
+        private  Class thisclass;
+        private Course course;
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
+    public Integer getHomeworkid() {
+        return homeworkid;
+    }
+
+    public void setHomeworkid(Integer homeworkid) {
+        this.homeworkid = homeworkid;
+    }
+
+    public Class getThisclass() {
+        return thisclass;
+    }
+
+    public void setThisclass(Class thisclass) {
+        this.thisclass = thisclass;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Integer getClassid() {
+        return classid;
+    }
+
+    public void setClassid(Integer classid) {
+        this.classid = classid;
+    }
 
     public String getQuestionid() {
         return questionid;
