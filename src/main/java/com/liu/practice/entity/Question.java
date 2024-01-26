@@ -13,8 +13,8 @@ public class Question {
     private String input;
     @Column(name = "output")
     private String output;
-    @Column(name="condition")
-    private String condition;
+    @Column(name="tiaojian")
+    private String tiaojian;
     @Column(name = "exampleout")
     private String exampleout;
     @Column(name = "examplein")
@@ -52,12 +52,12 @@ public class Question {
         this.output = output;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getTiaojian() {
+        return tiaojian;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setTiaojian(String tiaojian) {
+        this.tiaojian = tiaojian;
     }
 
     public String getExampleout() {

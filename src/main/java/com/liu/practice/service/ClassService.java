@@ -3,8 +3,10 @@ package com.liu.practice.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.dao.ClassDao;
+import com.liu.practice.dao.ContractDao;
 import com.liu.practice.dao.CourseDao;
 import com.liu.practice.entity.Class;
+import com.liu.practice.entity.Contract;
 import com.liu.practice.entity.Course;
 import com.liu.practice.entity.Params;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,10 @@ import java.util.List;
 public class ClassService {
        @Resource
        private ClassDao classDao;
-        @Resource
+       @Resource
        private CourseDao courseDao;
+       @Resource
+       private ContractDao contractDao;
         public PageInfo<Class> findBySearch(Params params) {
             // 开启分页查询
             PageHelper.startPage(params.getPageNum(), params.getPageSize());
@@ -36,6 +40,29 @@ public class ClassService {
         {
             courseDao.insertSelective(course);
         }
+        public List<Contract>findcontract(Params params)
+        {
+            List<Contract> contract=contractDao.findBySearch(params.getClassid());
+            return contract;
+        }
+        public  boolean judgecontract(Integer classid,Integer questionid)
+        {
+            Contract ans=contractDao.judgefind(classid,questionid);
+            if(ans!=null)
+            {
+                return  false;
+            }
+            else
+            {
+                return  true;
+            }
+        }
+        public void addcontract(Contract contract)
+        {
+
+            contractDao.insertSelective(contract);
+        }
+
         public void updatecourse(Course course)
         {
             courseDao.updateByPrimaryKeySelective(course);

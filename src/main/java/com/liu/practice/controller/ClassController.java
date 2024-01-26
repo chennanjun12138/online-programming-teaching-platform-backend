@@ -3,11 +3,11 @@ package com.liu.practice.controller;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
+import com.liu.practice.entity.*;
 import com.liu.practice.entity.Class;
-import com.liu.practice.entity.Course;
-import com.liu.practice.entity.Params;
-import com.liu.practice.entity.User;
 import com.liu.practice.service.ClassService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -17,6 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/class")
 public class ClassController {
+    private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
+
     @Resource
     private ClassService classService;
 
@@ -28,6 +30,11 @@ public class ClassController {
     @GetMapping("/getcourse")
     public Result findcourse(Params params) {
         Course info = classService.findcourse(params);
+        return Result.success(info);
+    }
+    @GetMapping("/getcontract")
+    public Result findcontract(Params params) {
+        List<Contract> info = classService.findcontract(params);
         return Result.success(info);
     }
     @PostMapping
@@ -51,12 +58,31 @@ public class ClassController {
         {
             classService.updatecourse(coures);
         }
-
-
         return Result.success();
     }
-
-
+    @PostMapping("/contract")
+    public Result addcontract(@RequestBody Contract contract)
+    {
+            Integer res=0;
+           if(classService.judgecontract(contract.getClassid(),contract.getQuestionid()))
+           {
+               classService.addcontract(contract);
+               res=1;
+           }
+            return Result.success(res);
+    }
+    @PutMapping("/addBatch")
+    public Result addBatch(@RequestBody List<Contract> list) {
+        for (Contract cl : list) {
+            if(classService.judgecontract(cl.getClassid(),cl.getQuestionid()))
+            {
+                log.info("课程："+cl.getClassid().toString());
+                log.info("题号："+cl.getQuestionid().toString());
+                classService.addcontract(cl);
+            }
+        }
+        return Result.success();
+    }
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
         classService.delete(id);

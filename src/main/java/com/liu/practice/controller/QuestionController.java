@@ -32,16 +32,21 @@ public class QuestionController {
     }
 
     @PostMapping
-    public Result save(@RequestBody Question questionbank) {
-        if (questionbank.getId() == null) {
+    public Result save(@RequestBody Question question) {
+        if (question.getId() == null) {
 
-            quersionService.add(questionbank);
+            quersionService.add(question);
         } else {
-            quersionService.update(questionbank);
+            quersionService.update(question);
         }
         return Result.success();
     }
+    @PostMapping("/add")
+    public Result add(@RequestBody Question question) {
 
+        quersionService.add(question);
+        return Result.success();
+    }
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
         quersionService.delete(id);
@@ -49,8 +54,8 @@ public class QuestionController {
     }
     @PutMapping("/delBatch")
     public Result delBatch(@RequestBody List<Question> list) {
-        for (Question questionbank : list) {
-            quersionService.delete(questionbank.getId());
+        for (Question question : list) {
+            quersionService.delete(question.getId());
         }
         return Result.success();
     }
