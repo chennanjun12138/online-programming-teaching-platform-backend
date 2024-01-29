@@ -29,7 +29,7 @@ public class HomeworkController {
 
     @GetMapping("/search")
     public Result findBySearch(Params params) {
-        log.info(params.getTeacher());
+        log.info("查询的教师"+params.getTeacher());
         PageInfo<Homework> info = homeworkService.findBySearch(params);
         return Result.success(info);
     }

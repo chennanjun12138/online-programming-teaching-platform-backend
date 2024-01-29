@@ -25,9 +25,9 @@ public class QuestionController {
 
     @GetMapping("/search")
     public Result findBySearch(Params params) {
-          log.info("question");
+          //log.info("question");
          Question  info = quersionService.findBySearch(params);
-        log.info(info.getContent());
+        //log.info(info.getContent());
         return Result.success(info);
     }
 
