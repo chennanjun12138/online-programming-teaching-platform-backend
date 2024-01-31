@@ -34,7 +34,6 @@ public class QuestionController {
     @PostMapping
     public Result save(@RequestBody Question question) {
         if (question.getId() == null) {
-
             quersionService.add(question);
         } else {
             quersionService.update(question);
@@ -43,7 +42,6 @@ public class QuestionController {
     }
     @PostMapping("/add")
     public Result add(@RequestBody Question question) {
-
         quersionService.add(question);
         return Result.success();
     }

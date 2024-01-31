@@ -3,6 +3,7 @@ package com.liu.practice.controller;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
+import com.liu.practice.entity.Homework;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.Questionbank;
 import com.liu.practice.entity.User;
@@ -29,7 +30,14 @@ public class QuestionbankController {
 
     @Resource
     private QuersionbankService quersionbankService;
-
+    @PostMapping("/update")
+    public Result update(Params params)
+    {
+        log.info(params.getQuestionid());
+        log.info("homeworkid:"+params.getHomeworkid().toString());
+        quersionbankService.change(params.getQuestionid(),params.getHomeworkid().toString());
+        return  Result.success();
+    }
     @GetMapping("/search")
     public Result findBySearch(Params params) {
        // log.info("s1");
@@ -52,10 +60,8 @@ public class QuestionbankController {
     }
     @PostMapping
     public Result save(@RequestBody Questionbank questionbank) {
-        if (questionbank.getId() == null) {
-            //long currentTimeMillis = System.currentTimeMillis();
-           // Date date=new Date(currentTimeMillis);
-            //String dateString=date.toString();
+     //  log.info("添加新题"+questionbank.getId().toString());
+        if (questionbank.getId()== null) {
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = dateformat.format(System.currentTimeMillis());
             questionbank.setCreatetime(dateString);
