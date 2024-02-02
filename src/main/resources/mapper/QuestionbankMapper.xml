@@ -19,5 +19,10 @@
             questionid =#{content}
         </where>
     </select>
-
+    <select id="findbyid" resultType="com.liu.practice.entity.Questionbank">
+        select * from questionbank
+        <where>
+            id=#{id}
+        </where>
+    </select>
 </mapper>

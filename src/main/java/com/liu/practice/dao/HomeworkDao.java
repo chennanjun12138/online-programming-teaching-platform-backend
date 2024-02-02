@@ -12,7 +12,9 @@ import java.util.List;
 public interface HomeworkDao extends Mapper<Homework> {
     List<Homework> findBySearch(@Param("params") Params params);
     List<Homework> findByteacher(String teacher);
+    Homework findbyid(Integer id);
     void update(Integer id,String content);
+    void deletebyhomeworkid(Integer homeworkid);
    // void insertData(@Param("params") Homework params);
 
 }

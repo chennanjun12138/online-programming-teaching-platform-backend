@@ -20,7 +20,12 @@
             teacher=#{teacher}
         </where>
     </select>
-
+    <select id="findbyid" resultType="com.liu.practice.entity.Homework">
+        select * from homework
+        <where>
+            id=#{id}
+        </where>
+    </select>
     <select id="update" resultType="com.liu.practice.entity.Homework">
         UPDATE homework
         SET content = ${content}

@@ -13,4 +13,10 @@
             classid=#{classid} and  questionid=#{questionid}
         </where>
     </select>
+    <delete id="deletebyclassid">
+        delete  from contract
+        <where>
+            classid=#{classid}
+        </where>
+    </delete>
 </mapper>

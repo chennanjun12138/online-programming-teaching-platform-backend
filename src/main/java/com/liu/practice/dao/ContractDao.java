@@ -15,4 +15,5 @@ public interface ContractDao extends Mapper<Contract> {
 
     List<Contract> findBySearch(Integer classid);
     Contract judgefind(Integer classid,Integer questionid);
+    void deletebyclassid(Integer classid);
 }

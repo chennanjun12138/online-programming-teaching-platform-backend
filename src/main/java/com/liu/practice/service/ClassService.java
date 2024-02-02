@@ -78,5 +78,6 @@ public class ClassService {
          public void delete(Integer id) {
              classDao.deleteByPrimaryKey(id);
              courseDao.deleteByPrimaryKey(id);
+             contractDao.deletebyclassid(id);
         }
 }

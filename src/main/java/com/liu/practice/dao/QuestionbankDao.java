@@ -11,5 +11,5 @@ import java.util.List;
 public interface QuestionbankDao extends Mapper<Questionbank> {
     List<Questionbank> findBySearch(@Param("params") Params params);
     Questionbank findByhomework(String content);
-
+    Questionbank findbyid(Integer id);
 }

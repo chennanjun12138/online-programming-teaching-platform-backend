@@ -13,5 +13,5 @@ import java.util.List;
 public interface SubmitDao extends Mapper<Submit> {
      List<Submit> findBySearch(Integer homeworkid);
      List<Submit> findbystudent(@Param("params") Params params);
-
+     void deletebyhomeworkid(Integer homeworkid);
 }

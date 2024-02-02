@@ -54,6 +54,7 @@ public class HomeworkController {
     }
     @PostMapping
     public Result save(@RequestBody Homework book) {
+        String oldcontent=homeworkService.findbyid(book.getId()).getContent();
          if (book.getId() == null) {
             String sdateString = book.getStarttime().substring(0, 10);
             String edateString =  book.getEndtime().substring(0, 10);
@@ -65,7 +66,11 @@ public class HomeworkController {
         } else {
             homeworkService.update(book);
         }
-         homeworkService.changeblongid(book.getContent(),book.getHomeworkid());
+
+
+         log.info("oldcontent"+oldcontent);
+         log.info("newcoent"+book.getContent());
+         homeworkService.changeblongid(book.getContent(),book.getHomeworkid(),oldcontent);
         return Result.success();
     }
     @PostMapping("/changesubmit")

@@ -60,14 +60,19 @@ public class QuestionbankController {
     }
     @PostMapping
     public Result save(@RequestBody Questionbank questionbank) {
-     //  log.info("添加新题"+questionbank.getId().toString());
+        Params params = new Params();
+        params.setContent(questionbank.getQuestionid());
+        String oldcontent=quersionbankService.findbyid(params).getBelongid();
+         log.info(quersionbankService.findbyid(params).getBelongid());
+        // log.info("添加新题"+questionbank.getId().toString());
+         log.info(questionbank.getBelongid());
         if (questionbank.getId()== null) {
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = dateformat.format(System.currentTimeMillis());
             questionbank.setCreatetime(dateString);
-            quersionbankService.add(questionbank);
+           quersionbankService.add(questionbank);
         } else {
-            quersionbankService.update(questionbank);
+            quersionbankService.update(questionbank,oldcontent);
         }
         return Result.success();
     }
