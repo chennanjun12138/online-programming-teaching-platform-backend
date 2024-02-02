@@ -71,6 +71,17 @@ public class ClassController {
            }
             return Result.success(res);
     }
+    @PostMapping("/judge")
+    public Result judgecontact(@RequestBody Contract contract)
+    {
+        Integer res=0;
+        log.info(contract.getQuestionid().toString());
+        if(classService.judgecontract(contract.getClassid(),contract.getQuestionid()))
+        {
+              res=contract.getQuestionid();
+        }
+        return Result.success(res);
+    }
     @PutMapping("/addBatch")
     public Result addBatch(@RequestBody List<Contract> list) {
         for (Contract cl : list) {
