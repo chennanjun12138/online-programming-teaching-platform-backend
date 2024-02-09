@@ -27,3 +27,7 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+#代码沙箱配置
+codesandbox:
+   type: remote

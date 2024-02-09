@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.practice.dao.QuestionsubmitDao">
+
+    <!--2. 基于xml的方式-->
+    <select id="findBySearch" resultType="com.liu.practice.entity.Questionsubmit">
+        select * from question_submit
+    </select>
+    <select id="getbyid" resultType="com.liu.practice.entity.Questionsubmit">
+        select * from question_submit
+        <where>
+            id=#{id}
+        </where>
+    </select>
+</mapper>

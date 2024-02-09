@@ -1,5 +1,6 @@
 package com.liu.practice.entity;
 
+
 import javax.persistence.*;
 
 @Table(name = "question")
@@ -19,6 +20,16 @@ public class Question {
     private String exampleout;
     @Column(name = "examplein")
     private String examplein;
+    @Column(name = "answer")
+    private String answer;
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public Integer getId() {
         return id;

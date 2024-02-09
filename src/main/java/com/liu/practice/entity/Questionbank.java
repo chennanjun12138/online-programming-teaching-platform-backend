@@ -24,6 +24,26 @@ public class Questionbank {
     private String createtime;
     @Column(name = "belongid")
     private String belongid;
+    @Column(name = "submitnum")
+    private  Integer submitnum;
+    @Column(name = "solvenum")
+    private  Integer solvenum;
+
+    public Integer getSubmitnum() {
+        return submitnum;
+    }
+
+    public void setSubmitnum(Integer submitnum) {
+        this.submitnum = submitnum;
+    }
+
+    public Integer getSolvenum() {
+        return solvenum;
+    }
+
+    public void setSolvenum(Integer solvenum) {
+        this.solvenum = solvenum;
+    }
 
     public String getQuestionid() {
         return questionid;
