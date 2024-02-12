@@ -14,14 +14,21 @@ public class Question {
     private String input;
     @Column(name = "output")
     private String output;
-    @Column(name="tiaojian")
-    private String tiaojian;
-    @Column(name = "exampleout")
-    private String exampleout;
-    @Column(name = "examplein")
-    private String examplein;
+    @Column(name="judgeConfig")
+    private String judgeConfig;
+
     @Column(name = "answer")
     private String answer;
+    @Column(name = "judgeCase")
+    private String judgeCase;
+
+    public String getJudgeCase() {
+        return judgeCase;
+    }
+
+    public void setJudgeCase(String judgeCase) {
+        this.judgeCase = judgeCase;
+    }
 
     public String getAnswer() {
         return answer;
@@ -63,27 +70,13 @@ public class Question {
         this.output = output;
     }
 
-    public String getTiaojian() {
-        return tiaojian;
+    public String getJudgeConfig() {
+        return judgeConfig;
     }
 
-    public void setTiaojian(String tiaojian) {
-        this.tiaojian = tiaojian;
+    public void setJudgeConfig(String judgeConfig) {
+        this.judgeConfig = judgeConfig;
     }
 
-    public String getExampleout() {
-        return exampleout;
-    }
 
-    public void setExampleout(String exampleout) {
-        this.exampleout = exampleout;
-    }
-
-    public String getExamplein() {
-        return examplein;
-    }
-
-    public void setExamplein(String examplein) {
-        this.examplein = examplein;
-    }
 }

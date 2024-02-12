@@ -5,11 +5,29 @@
     <!--2. 基于xml的方式-->
     <select id="findBySearch" resultType="com.liu.practice.entity.Questionsubmit">
         select * from question_submit
+        <where>
+            <if test="params != null and params.userid != null and params.userid != ''">
+                and userid =#{ params.userid }
+            </if>
+            <if test="params != null and params.questionid != null and params.questionid != ''">
+                and questionid=#{ params.questionid }
+            </if>
+        </where>
+
     </select>
     <select id="getbyid" resultType="com.liu.practice.entity.Questionsubmit">
         select * from question_submit
         <where>
             id=#{id}
+        </where>
+    </select>
+
+    <select id="findbyothers" resultType="com.liu.practice.entity.Questionsubmit">
+        select COUNT(*) AS count from question_submit
+        <where>
+            userId=#{userId} and questionId=#{questionId}
+            and language =#{language}
+            and code=#{code}
         </where>
     </select>
 </mapper>

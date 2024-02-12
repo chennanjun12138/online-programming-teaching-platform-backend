@@ -46,14 +46,14 @@ public class Questionsubmit  {
     /**
      * 题目 id
      */
-    @Column(name = "questionId")
-    private Long questionId;
+    @Column(name = "questionid")
+    private Long questionid;
 
     /**
      * 创建用户 id
      */
-    @Column(name = "userId")
-    private Long userId;
+    @Column(name = "userid")
+    private Long userid;
 
     /**
      * 创建时间
@@ -107,20 +107,20 @@ public class Questionsubmit  {
         this.status = status;
     }
 
-    public Long getQuestionId() {
-        return questionId;
+    public Long getQuestionid() {
+        return questionid;
     }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
+    public void setQuestionid(Long questionid) {
+        this.questionid = questionid;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUserid() {
+        return userid;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     public Date getCreateTime() {
