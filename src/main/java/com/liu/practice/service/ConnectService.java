@@ -35,7 +35,11 @@ public class ConnectService {
             List<String >list=connectDao.findteachers(params);
             return list;
         }
-
+    public List<String> findbyteacherid(Integer teacherid)
+    {
+        List<String >list=connectDao.findbyteacherid(teacherid);
+        return list;
+    }
         public void add(Connect book) {
             connectDao.insertSelective(book);
         }

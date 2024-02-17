@@ -62,7 +62,7 @@ public class QuestionbankController {
     public Result save(@RequestBody Questionbank questionbank) {
         Params params = new Params();
         params.setContent(questionbank.getQuestionid());
-        String oldcontent=quersionbankService.findbyid(params).getBelongid();
+
          log.info(quersionbankService.findbyid(params).getBelongid());
         // log.info("添加新题"+questionbank.getId().toString());
          log.info(questionbank.getBelongid());
@@ -72,6 +72,7 @@ public class QuestionbankController {
             questionbank.setCreatetime(dateString);
            quersionbankService.add(questionbank);
         } else {
+            String oldcontent=quersionbankService.findbyid(params).getBelongid();
             quersionbankService.update(questionbank,oldcontent);
         }
         return Result.success();

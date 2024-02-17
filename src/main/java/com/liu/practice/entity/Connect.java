@@ -8,8 +8,8 @@ public class Connect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "teacherid")
-    private String teacherid;
+    @Column(name = "classid")
+    private String classid;
     @Column(name = "teachername")
     private String teachername;
     @Column(name = "studentid")
@@ -25,12 +25,12 @@ public class Connect {
         this.id = id;
     }
 
-    public String getTeacherid() {
-        return teacherid;
+    public String getClassid() {
+        return classid;
     }
 
-    public void setTeacherid(String teacherid) {
-        this.teacherid = teacherid;
+    public void setClassid(String classid) {
+        this.classid = classid;
     }
 
     public String getTeachername() {

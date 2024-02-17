@@ -4,9 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.ErrorCode;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
-import com.liu.practice.entity.Params;
-import com.liu.practice.entity.Questionsubmit;
+import com.liu.practice.entity.*;
 import com.liu.practice.exception.BusinessException;
+import com.liu.practice.service.ConnectService;
+import com.liu.practice.service.EvaluateService;
 import com.liu.practice.service.QuestionsubmitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -25,12 +28,18 @@ public class QuestionsubmitController {
 
     @Resource
     private QuestionsubmitService questionsubmitService;
-
+    @Resource
+    private EvaluateService evaluateService;
 
 
     @GetMapping("/search")
     public Result findBySearch(Params params) {
         PageInfo<Questionsubmit> info = questionsubmitService.findBySearch(params);
+        return Result.success(info);
+    }
+    @GetMapping("/getsubmitbyteachers")
+    public Result getsubmitbyteachers(Params params) {
+        PageInfo<Questionsubmit> info = questionsubmitService.findByteachid(params,params.getUserid());
         return Result.success(info);
     }
         /**
@@ -59,6 +68,24 @@ public class QuestionsubmitController {
         log.info("提交成功");
         return Result.success(questionSubmitId);
     }
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        questionsubmitService.delete(id);
+        return Result.success();
+    }
 
+    @PostMapping("/addevaluate")
+    public Result addevaluate(@RequestBody Evaluate evaluate) {
+        log.info("开始添加");
+        evaluateService.add(evaluate);
+        return Result.success();
+    }
+    @GetMapping("/getevaluate")
+    public Result findevaluate(Params params) {
+
+        List<Evaluate> info = evaluateService.findBySearch(params);
+
+        return Result.success(info);
+    }
 
 }

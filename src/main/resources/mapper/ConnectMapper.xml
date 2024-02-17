@@ -13,4 +13,10 @@
                     studentid=#{params.studentid}
         </where>
     </select>
+    <select id="findbyteacherid" resultType="java.lang.String">
+        select studentid from connect
+        <where>
+            teacherid=#{teacherid}
+        </where>
+    </select>
 </mapper>

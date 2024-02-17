@@ -13,4 +13,5 @@ public interface QuestionsubmitDao extends Mapper<Questionsubmit> {
     List<Questionsubmit> findBySearch(@Param("params") Params params);
     Questionsubmit getbyid(Long id);
     Long findbyothers(Long userId,Long questionId,String language,String code);
+    List<Questionsubmit> findByteachid(@Param("params") Params params);
 }

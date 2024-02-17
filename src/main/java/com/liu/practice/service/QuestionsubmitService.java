@@ -6,10 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.ErrorCode;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.dao.QuestionsubmitDao;
-import com.liu.practice.entity.Params;
-import com.liu.practice.entity.Question;
-import com.liu.practice.entity.Questionbank;
-import com.liu.practice.entity.Questionsubmit;
+import com.liu.practice.entity.*;
 import com.liu.practice.enums.QuestionSubmitLanguageEnum;
 import com.liu.practice.enums.QuestionSubmitStatusEnum;
 import com.liu.practice.exception.BusinessException;
@@ -19,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,6 +31,8 @@ public class QuestionsubmitService {
         private JudgeService judgeService;
     @Resource
     private QuestionService questionService;
+    @Resource
+    private ConnectService connectService;
     public long doQuestionSubmit(Questionsubmit questionsubmit) {
         // 校验编程语言是否合法
         String language = questionsubmit.getLanguage();
@@ -94,6 +94,23 @@ public class QuestionsubmitService {
         List<Questionsubmit> list = questionsubmitDao.findBySearch(params);
         return PageInfo.of(list);
     }
+    public PageInfo<Questionsubmit> findByteachid(Params params,Integer userid) {
+         // 开启分页查询
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+//        params.setUserid(null);
+//        List<String> students = connectService.findbyteacherid(userid);
+//        // 接下来的查询会自动按照当前开启的分页设置来查询
+        List<Questionsubmit> list = questionsubmitDao.findByteachid(params);
+//        log.info("list:"+list.size());
+//        List<Questionsubmit> res = new ArrayList<>();
+//        for (Questionsubmit ans : list) {
+//            if (students.contains(ans.getUserid().toString())) {
+//                res.add(ans);
+//            }
+//        }
+
+        return PageInfo.of(list);
+    }
         public Questionsubmit  getbyid(Long questionsubmitid)
         {
             Questionsubmit questionsubmit=questionsubmitDao.getbyid(questionsubmitid);
@@ -119,6 +136,10 @@ public class QuestionsubmitService {
          public void delete(Integer id) {
              questionsubmitDao.deleteByPrimaryKey(id);
         }
-
+    public Questionsubmit findbyid(Integer id)
+    {
+      Questionsubmit questionsubmit=  questionsubmitDao.selectByPrimaryKey(id);
+      return  questionsubmit;
+    }
 
  }

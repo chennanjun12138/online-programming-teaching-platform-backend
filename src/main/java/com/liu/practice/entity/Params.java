@@ -17,11 +17,29 @@ public class Params {
         private String role;
         private String sort;
         private String content;
+        private String language;
         private Integer pageNum;
         private Integer pageSize;
         private Integer classid;
         private  Class thisclass;
         private Course course;
+        private  Integer question_submitid;
+
+    public Integer getQuestion_submitid() {
+        return question_submitid;
+    }
+
+    public void setQuestion_submitid(Integer question_submitid) {
+        this.question_submitid = question_submitid;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public Integer getUserid() {
         return userid;

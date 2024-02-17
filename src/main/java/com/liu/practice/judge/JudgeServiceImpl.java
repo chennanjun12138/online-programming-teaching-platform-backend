@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class JudgeServiceImpl implements JudgeService {
     private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
-    @Value("${codesandbox.type:example}")
+    @Value("${codesandbox.type:remote}")
     private  String type;
     @Resource
     private QuestionService questionService;
@@ -84,19 +84,8 @@ public class JudgeServiceImpl implements JudgeService {
         }
         //调用代码沙箱
 
-        CodeSandbox codeSandbox= CodeSandboxFactory.newInstance("example");
+        CodeSandbox codeSandbox= CodeSandboxFactory.newInstance(type);
         codeSandbox=new CodeSandboxProxy(codeSandbox);
-//        List<String>judgeCaseSrt=new ArrayList<>();
-//        judgeCaseSrt.add(question.getExamplein());
-//        judgeCaseSrt.add(question.getExampleout()) ;
-//        JSONArray jsonArray = new JSONArray();
-//
-//        // 遍历 List，并将每个字符串添加到 JSONArray 中
-//        for (String str : judgeCaseSrt) {
-//            log.info(str);
-//            jsonArray.put(str);
-//        }
-//        log.info(jsonArray.toString());
         String judgeCaseStr = question.getJudgeCase();
         JSONArray jsonArray = JSONUtil.parseArray(judgeCaseStr);
 
@@ -117,7 +106,7 @@ public class JudgeServiceImpl implements JudgeService {
         List<String> outputList = executeCodeResponse.getOutputList();
         // 5）根据沙箱的执行结果，设置题目的判题状态和信息
         log.info(inputList.toString());
-        log.info("代码沙箱执行结果"+outputList);
+        log.info("代码沙箱执行结果:"+outputList);
         JudgeContext judgeContext = new JudgeContext();
         judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
         judgeContext.setInputList(inputList);
