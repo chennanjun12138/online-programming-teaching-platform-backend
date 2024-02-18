@@ -14,6 +14,7 @@ public class Params {
         private String questionid;
         private Integer homeworkid;
         private Integer userid;
+        private Integer teacherid;
         private String role;
         private String sort;
         private String content;
@@ -24,6 +25,14 @@ public class Params {
         private  Class thisclass;
         private Course course;
         private  Integer question_submitid;
+
+    public Integer getTeacherid() {
+        return teacherid;
+    }
+
+    public void setTeacherid(Integer teacherid) {
+        this.teacherid = teacherid;
+    }
 
     public Integer getQuestion_submitid() {
         return question_submitid;

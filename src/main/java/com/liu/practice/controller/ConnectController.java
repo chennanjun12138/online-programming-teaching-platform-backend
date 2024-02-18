@@ -3,10 +3,12 @@ package com.liu.practice.controller;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
+import com.liu.practice.entity.Class;
 import com.liu.practice.entity.Connect;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.User;
 import com.liu.practice.service.ConnectService;
+import com.liu.practice.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,13 @@ public class ConnectController {
 
     @Resource
     private ConnectService connectService;
-
+    @Resource
+    private UserService userService;
+    @GetMapping("/search")
+    public Result findBySearch(Params params) {
+        PageInfo<Connect> info = connectService.findBySearch(params);
+        return Result.success(info);
+    }
     @GetMapping("/findteachers")
     public Result findteachers(Params params)
     {
@@ -37,7 +45,10 @@ public class ConnectController {
         params.setStudentid(connect.getStudentid());
         params.setTeachername(connect.getTeachername());
 
-        if(connectService.findBySearch(params))
+        User teacher=userService.findByname(connect.getTeachername());
+
+        connect.setTeacherid(teacher.getId().toString());
+        if(connectService.findjudge(params))
         {
             connectService.add(connect);
             log2.info("添加成功");

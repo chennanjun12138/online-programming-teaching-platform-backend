@@ -39,7 +39,7 @@ public class QuestionsubmitController {
     }
     @GetMapping("/getsubmitbyteachers")
     public Result getsubmitbyteachers(Params params) {
-        PageInfo<Questionsubmit> info = questionsubmitService.findByteachid(params,params.getUserid());
+        PageInfo<Questionsubmit> info = questionsubmitService.findByteachid(params);
         return Result.success(info);
     }
         /**

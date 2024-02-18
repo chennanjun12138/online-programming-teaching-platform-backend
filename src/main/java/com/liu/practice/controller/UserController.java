@@ -51,6 +51,12 @@ public class UserController {
             User user=userService.findByname(username);
             return Result.success(user);
      }
+    @GetMapping("/{id}")
+    public Result findByid(@PathVariable  Integer id)
+    {
+        User user=userService.findById(id);
+        return Result.success(user);
+    }
     @PostMapping()
     public Result save(@RequestBody User user) {
         log.info("拦截器已放行");

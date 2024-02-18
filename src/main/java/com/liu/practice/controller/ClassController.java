@@ -27,6 +27,11 @@ public class ClassController {
         PageInfo<Class> info = classService.findBySearch(params);
         return Result.success(info);
     }
+    @GetMapping("/findall")
+    public Result findall(Params params) {
+        List<Class> info = classService.findall(params);
+        return Result.success(info);
+    }
     @GetMapping("/getcourse")
     public Result findcourse(Params params) {
         Course info = classService.findcourse(params);

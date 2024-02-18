@@ -22,7 +22,19 @@
         SELECT q.*
         FROM question_submit q
                  JOIN connect c ON q.userid = c.studentid
-        WHERE c.teacherid = #{params.userid}
+
+        <where>
+            c.teacherid = #{params.teacherid}
+            <if test="params != null and params.userid != null and params.userid != ''">
+                and userid =#{ params.userid }
+            </if>
+            <if test="params != null and params.questionid != null and params.questionid != ''">
+                and questionid=#{ params.questionid }
+            </if>
+            <if test="params != null and params.language != null and params.language != ''">
+                and language =#{ params.language }
+            </if>
+        </where>
     </select>
     <select id="getbyid" resultType="com.liu.practice.entity.Questionsubmit">
         select * from question_submit

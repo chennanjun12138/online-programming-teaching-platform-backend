@@ -12,6 +12,7 @@ import com.liu.practice.entity.Params;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +31,11 @@ public class ClassService {
             List<Class> list = classDao.findBySearch(params);
             return PageInfo.of(list);
          }
+    public List<Class> findall(Params params) {
+
+        List<Class> list = classDao.findBySearch(params);
+        return list;
+    }
         public Course findcourse(Params params)
         {
 

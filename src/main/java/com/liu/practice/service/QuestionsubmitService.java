@@ -94,20 +94,13 @@ public class QuestionsubmitService {
         List<Questionsubmit> list = questionsubmitDao.findBySearch(params);
         return PageInfo.of(list);
     }
-    public PageInfo<Questionsubmit> findByteachid(Params params,Integer userid) {
+    public PageInfo<Questionsubmit> findByteachid(Params params) {
          // 开启分页查询
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-//        params.setUserid(null);
-//        List<String> students = connectService.findbyteacherid(userid);
+
 //        // 接下来的查询会自动按照当前开启的分页设置来查询
         List<Questionsubmit> list = questionsubmitDao.findByteachid(params);
-//        log.info("list:"+list.size());
-//        List<Questionsubmit> res = new ArrayList<>();
-//        for (Questionsubmit ans : list) {
-//            if (students.contains(ans.getUserid().toString())) {
-//                res.add(ans);
-//            }
-//        }
+
 
         return PageInfo.of(list);
     }

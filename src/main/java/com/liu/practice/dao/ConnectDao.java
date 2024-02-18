@@ -15,6 +15,7 @@ public interface ConnectDao extends Mapper<Connect> {
 
 
     List<Connect> findBySearch(@Param("params") Params params);
+    List<Connect> findjudge(@Param("params") Params params);
     List<String> findteachers(@Param("params") Params params);
     List<String> findbyteacherid(Integer teacherid);
 }

@@ -16,6 +16,16 @@ public class Connect {
     private String studentid;
     @Column(name = "studentname")
     private String studentname;
+    @Column(name = "teacherid")
+    private String teacherid;
+
+    public String getTeacherid() {
+        return teacherid;
+    }
+
+    public void setTeacherid(String teacherid) {
+        this.teacherid = teacherid;
+    }
 
     public Integer getId() {
         return id;
