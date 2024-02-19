@@ -22,7 +22,7 @@ import static cn.hutool.core.lang.Console.log;
 @RestController
 @RequestMapping("/connect")
 public class ConnectController {
-    private static final Logger log2 = LoggerFactory.getLogger(JwtInterceptor.class);
+    private static final Logger log  = LoggerFactory.getLogger(JwtInterceptor.class);
 
     @Resource
     private ConnectService connectService;
@@ -41,20 +41,24 @@ public class ConnectController {
     }
     @PostMapping
     public Result add(@RequestBody Connect connect) {
+        log.info(connect.getStudentid());
         Params params=new Params();
         params.setStudentid(connect.getStudentid());
         params.setTeachername(connect.getTeachername());
-
+        params.setClassid(Integer.parseInt(connect.getClassid()));
         User teacher=userService.findByname(connect.getTeachername());
 
         connect.setTeacherid(teacher.getId().toString());
+
+        Integer flag=0;
         if(connectService.findjudge(params))
         {
-            connectService.add(connect);
-            log2.info("添加成功");
+             flag=1;
+           connectService.add(connect);
+
         }
 
-        return Result.success();
+        return Result.success(flag);
     }
 
     @DeleteMapping("/{id}")

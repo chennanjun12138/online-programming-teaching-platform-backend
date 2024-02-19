@@ -2,10 +2,13 @@ package com.liu.practice.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.dao.ConnectDao;
 import com.liu.practice.entity.Connect;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,12 +17,15 @@ import java.util.List;
 
 @Service
 public class ConnectService {
-       @Resource
+    private static final Logger log  = LoggerFactory.getLogger(JwtInterceptor.class);
+
+    @Resource
        private ConnectDao connectDao;
         public boolean findjudge(Params params) {
             // 开启分页查询
             // 接下来的查询会自动按照当前开启的分页设置来查询
             List<Connect> list = connectDao.findjudge(params);
+
             if(list.isEmpty())
             {
                 return  true;
