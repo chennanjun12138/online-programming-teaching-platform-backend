@@ -53,9 +53,16 @@ public class QuestionbankController {
     }
     @GetMapping("/findbyid")
     public Result findByid(Params params) {
-        log.info(params.getContent());
+
         Questionbank  info = quersionbankService.findbyid(params);
-        // log.info(params.getContent().toString());
+
+        return Result.success(info);
+    }
+    @GetMapping("/findbyquesionid")
+    public Result findByquestionid(Params params) {
+
+        List<Questionbank>  info = quersionbankService.findbyquestionid(params);
+
         return Result.success(info);
     }
     @PostMapping

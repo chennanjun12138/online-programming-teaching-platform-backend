@@ -6,6 +6,7 @@ import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
 import com.liu.practice.entity.*;
 import com.liu.practice.exception.BusinessException;
+import com.liu.practice.judge.codesandbox.model.JudgeInfo;
 import com.liu.practice.service.ConnectService;
 import com.liu.practice.service.EvaluateService;
 import com.liu.practice.service.QuestionsubmitService;
@@ -37,6 +38,11 @@ public class QuestionsubmitController {
         PageInfo<Questionsubmit> info = questionsubmitService.findBySearch(params);
         return Result.success(info);
     }
+    @GetMapping("/getall")
+    public Result getall(Params params) {
+        List<Questionsubmit> info = questionsubmitService.getall(params);
+        return Result.success(info);
+    }
     @GetMapping("/getsubmitbyteachers")
     public Result getsubmitbyteachers(Params params) {
         PageInfo<Questionsubmit> info = questionsubmitService.findByteachid(params);
@@ -50,7 +56,6 @@ public class QuestionsubmitController {
      */
     @PostMapping("/submit")
     public Result doQuestionSubmit(@RequestBody Questionsubmit questionsubmit) {
-      //  log.info(questionsubmit.getCode());
         if (questionsubmit == null || questionsubmit.getQuestionid() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -67,6 +72,12 @@ public class QuestionsubmitController {
         long questionSubmitId = questionsubmitService.doQuestionSubmit(questionsubmit);
         log.info("提交成功");
         return Result.success(questionSubmitId);
+    }
+    @PostMapping("/submit_class")
+    public Result doClassSubmit(@RequestBody Questionsubmit questionsubmit) {
+        List<String>  judgeInfo = questionsubmitService.runSubmit(questionsubmit);
+        log.info("提交成功");
+        return Result.success(judgeInfo);
     }
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {

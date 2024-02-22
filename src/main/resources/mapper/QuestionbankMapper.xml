@@ -10,7 +10,12 @@
             <if test="params != null and params.creator != null and params.creator != ''">
                 and creator like concat('%', #{ params.creator }, '%')
             </if>
-
+            <if test="params != null and params.type != null and params.type != ''">
+                and type like concat('%', #{ params.type }, '%')
+            </if>
+            <if test="params != null and params.questionid != null and params.questionid != ''">
+                and questionid like concat('%', #{ params.questionid }, '%')
+            </if>
         </where>
     </select>
     <select id="findByhomework" resultType="com.liu.practice.entity.Questionbank">

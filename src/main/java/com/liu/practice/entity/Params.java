@@ -9,6 +9,7 @@ public class Params {
         private String author;
         private String creator;
         private String teacher;
+        private String type;
         private String teachername;
         private String studentid;
         private String questionid;
@@ -25,6 +26,14 @@ public class Params {
         private  Class thisclass;
         private Course course;
         private  Integer question_submitid;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Integer getTeacherid() {
         return teacherid;

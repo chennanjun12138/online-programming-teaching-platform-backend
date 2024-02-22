@@ -11,6 +11,10 @@ import com.liu.practice.enums.QuestionSubmitLanguageEnum;
 import com.liu.practice.enums.QuestionSubmitStatusEnum;
 import com.liu.practice.exception.BusinessException;
 import com.liu.practice.judge.JudgeService;
+import com.liu.practice.judge.codesandbox.JavaCodeSandboxTemplate;
+import com.liu.practice.judge.codesandbox.model.ExecuteCodeRequest;
+import com.liu.practice.judge.codesandbox.model.ExecuteCodeResponse;
+import com.liu.practice.judge.codesandbox.model.JudgeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,7 +26,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 @Service
-public class QuestionsubmitService {
+public class QuestionsubmitService extends JavaCodeSandboxTemplate {
     private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
     @Resource
@@ -70,7 +74,25 @@ public class QuestionsubmitService {
         });
         return questionSubmitId;
     }
+    public  List<String>  runSubmit(Questionsubmit questionsubmit) {
+        // 校验编程语言是否合法
+        String language = questionsubmit.getLanguage();
+        QuestionSubmitLanguageEnum languageEnum = QuestionSubmitLanguageEnum.getEnumByValue(language);
+        if (languageEnum == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "编程语言错误");
+        }
+        // 执行判题服务
 
+        String code = questionsubmit.getCode();
+        ExecuteCodeRequest executeCodeRequest=ExecuteCodeRequest.builder()
+                .code(code)
+                .language(language)
+                .build();
+        ExecuteCodeResponse executeCodeResponse=super.executeCode(executeCodeRequest);
+        List<String> outputList = executeCodeResponse.getOutputList();
+        log.info("判题成功");
+        return  outputList;
+    }
     private boolean save(Questionsubmit questionSubmit) {
 
                if(questionsubmitDao.findbyothers(questionSubmit.getUserid(),questionSubmit.getQuestionid(),questionSubmit.getLanguage(),questionSubmit.getCode())==null)
@@ -93,6 +115,11 @@ public class QuestionsubmitService {
         // 接下来的查询会自动按照当前开启的分页设置来查询
         List<Questionsubmit> list = questionsubmitDao.findBySearch(params);
         return PageInfo.of(list);
+    }
+    public List<Questionsubmit> getall(Params params) {
+
+        List<Questionsubmit> list = questionsubmitDao.findBySearch(params);
+        return list;
     }
     public PageInfo<Questionsubmit> findByteachid(Params params) {
          // 开启分页查询

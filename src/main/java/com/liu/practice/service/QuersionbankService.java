@@ -39,6 +39,11 @@ public class QuersionbankService {
          Questionbank ans=questionbankDao.findByhomework(params.getContent());
          return  ans;
      }
+    public List<Questionbank> findbyquestionid(Params params)
+    {
+        List<Questionbank> ans=questionbankDao.findBySearch(params);
+        return  ans;
+    }
     public PageInfo<Questionbank> findByhomework(Params params) {
         // 开启分页查询
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
