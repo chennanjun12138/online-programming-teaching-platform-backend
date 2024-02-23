@@ -19,12 +19,12 @@ import java.util.List;
  * Java 代码沙箱模板方法的实现
  */
 @Slf4j
-public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
+public abstract class CodeSandboxTemplate implements CodeSandbox{
 
     private static final String GLOBAL_CODE_DIR_NAME = "tmpCode";
 
     private static final String GLOBAL_JAVA_CLASS_NAME = "Main.java";
-
+    private static final String GLOBAL_C_CLASS_NAME = "Main.c";
     private static final long TIME_OUT = 5000L;
 
     @Override
@@ -34,14 +34,14 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
         String language = executeCodeRequest.getLanguage();
 
 //        1. 把用户的代码保存为文件
-        File userCodeFile = saveCodeToFile(code);
+        File userCodeFile = saveCodeToFile(code,language);
 
-//        2. 编译代码，得到 class 文件
-        ExecuteMessage compileFileExecuteMessage = compileFile(userCodeFile);
+//        2. 编译代码
+        ExecuteMessage compileFileExecuteMessage = compileFile(userCodeFile,language);
         System.out.println(compileFileExecuteMessage);
 
         // 3. 执行代码，得到输出结果
-        List<ExecuteMessage> executeMessageList = runFile(userCodeFile);
+        List<ExecuteMessage> executeMessageList = runFile(userCodeFile,language);
         System.out.println("最终结果："+executeMessageList);
 //        4. 收集整理输出结果
         ExecuteCodeResponse outputResponse = getOutputResponse(executeMessageList);
@@ -61,7 +61,7 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
      * @param code 用户代码
      * @return
      */
-    public File saveCodeToFile(String code) {
+    public File saveCodeToFile(String code,String language) {
         String userDir = System.getProperty("user.dir");
         String globalCodePathName = userDir + File.separator + GLOBAL_CODE_DIR_NAME;
         // 判断全局代码目录是否存在，没有则新建
@@ -71,7 +71,17 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
 
         // 把用户的代码隔离存放
         String userCodeParentPath = globalCodePathName + File.separator + UUID.randomUUID();
-        String userCodePath = userCodeParentPath + File.separator + GLOBAL_JAVA_CLASS_NAME;
+        String userCodePath = "";
+        if("java".equals(language))
+        {
+              userCodePath = userCodeParentPath + File.separator + GLOBAL_JAVA_CLASS_NAME;
+        }
+        else if("c".equals(language))
+        {
+            log.info("进入");
+            userCodePath=userCodeParentPath + File.separator+GLOBAL_C_CLASS_NAME;
+        }
+        log.info("path:"+userCodePath);
         File userCodeFile = FileUtil.writeString(code, userCodePath, StandardCharsets.UTF_8);
         return userCodeFile;
     }
@@ -81,8 +91,18 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
      * @param userCodeFile
      * @return
      */
-    public ExecuteMessage compileFile(File userCodeFile) {
-        String compileCmd = String.format("javac -encoding utf-8 %s", userCodeFile.getAbsolutePath());
+    public ExecuteMessage compileFile(File userCodeFile,String language) {
+
+        String compileCmd = "";
+        if("java".equals(language))
+        {
+            compileCmd = String.format("javac -encoding utf-8 %s", userCodeFile.getAbsolutePath());
+        }
+        else if("c".equals(language))
+        {
+            compileCmd= String.format("gcc %s -o Main", userCodeFile.getAbsolutePath());
+        }
+
         try {
             Process compileProcess = Runtime.getRuntime().exec(compileCmd);
             ExecuteMessage executeMessage = ProcessUtils.runProcessAndGetMessage(compileProcess, "编译");
@@ -91,7 +111,6 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
             }
             return executeMessage;
         } catch (Exception e) {
-//            return getErrorResponse(e);
             throw new RuntimeException(e);
         }
     }
@@ -102,11 +121,20 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
      *
      * @return
      */
-    public List<ExecuteMessage> runFile(File userCodeFile) {
+    public List<ExecuteMessage> runFile(File userCodeFile,String language) {
         String userCodeParentPath = userCodeFile.getParentFile().getAbsolutePath();
 
         List<ExecuteMessage> executeMessageList = new ArrayList<>();
-        String runCmd = String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main ", userCodeParentPath);
+
+        String runCmd ="";
+        if("java".equals(language))
+        {
+            runCmd=String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main ", userCodeParentPath);
+        }
+        else if("c".equals(language))
+        {
+            runCmd=String.format("Main", userCodeParentPath);
+        }
         try {
             Process runProcess = Runtime.getRuntime().exec(runCmd);
 

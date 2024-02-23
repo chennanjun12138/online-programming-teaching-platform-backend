@@ -11,22 +11,20 @@ import com.liu.practice.enums.QuestionSubmitLanguageEnum;
 import com.liu.practice.enums.QuestionSubmitStatusEnum;
 import com.liu.practice.exception.BusinessException;
 import com.liu.practice.judge.JudgeService;
-import com.liu.practice.judge.codesandbox.JavaCodeSandboxTemplate;
+import com.liu.practice.judge.codesandbox.CodeSandboxTemplate;
 import com.liu.practice.judge.codesandbox.model.ExecuteCodeRequest;
 import com.liu.practice.judge.codesandbox.model.ExecuteCodeResponse;
-import com.liu.practice.judge.codesandbox.model.JudgeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
 @Service
-public class QuestionsubmitService extends JavaCodeSandboxTemplate {
+public class QuestionsubmitService extends CodeSandboxTemplate {
     private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
     @Resource
@@ -82,7 +80,6 @@ public class QuestionsubmitService extends JavaCodeSandboxTemplate {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "编程语言错误");
         }
         // 执行判题服务
-
         String code = questionsubmit.getCode();
         ExecuteCodeRequest executeCodeRequest=ExecuteCodeRequest.builder()
                 .code(code)
