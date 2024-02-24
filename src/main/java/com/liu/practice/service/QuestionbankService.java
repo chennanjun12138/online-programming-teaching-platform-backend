@@ -1,6 +1,5 @@
 package com.liu.practice.service;
 
-import cn.hutool.json.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
@@ -20,7 +19,7 @@ import java.util.StringJoiner;
 
 
 @Service
-public class QuersionbankService {
+public class QuestionbankService {
     private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
         @Resource
@@ -279,5 +278,10 @@ public class QuersionbankService {
         String result = joiner.toString();
         book.setBelongid(result);
         questionbankDao.updateByPrimaryKeySelective(book);
+    }
+    public void changenum(Questionbank questionbank)
+    {
+        questionbankDao.updateByPrimaryKeySelective(questionbank);
+
     }
 }

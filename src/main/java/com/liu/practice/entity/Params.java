@@ -26,6 +26,15 @@ public class Params {
         private  Class thisclass;
         private Course course;
         private  Integer question_submitid;
+        private  String runresult;
+
+    public String getRunresult() {
+        return runresult;
+    }
+
+    public void setRunresult(String runresult) {
+        this.runresult = runresult;
+    }
 
     public String getType() {
         return type;

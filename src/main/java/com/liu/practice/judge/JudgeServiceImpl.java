@@ -7,7 +7,9 @@ import com.liu.practice.common.ErrorCode;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.dto.JudgeCase;
 import com.liu.practice.dto.JudgeConfig;
+import com.liu.practice.entity.Params;
 import com.liu.practice.entity.Question;
+import com.liu.practice.entity.Questionbank;
 import com.liu.practice.entity.Questionsubmit;
 import com.liu.practice.enums.JudgeInfoMessageEnum;
 import com.liu.practice.enums.QuestionSubmitStatusEnum;
@@ -22,6 +24,7 @@ import com.liu.practice.judge.strategy.DefaultJudgeStrategy;
 import com.liu.practice.judge.strategy.JudgeContext;
 import com.liu.practice.judge.strategy.JudgeStrategy;
 import com.liu.practice.service.QuestionService;
+import com.liu.practice.service.QuestionbankService;
 import com.liu.practice.service.QuestionsubmitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +49,9 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Resource
     private QuestionsubmitService questionsubmitService;
+
+    @Resource
+    private QuestionbankService questionbankService;
 
     @Resource
     private  JudgeManager judgeManager;
@@ -128,6 +134,23 @@ public class JudgeServiceImpl implements JudgeService {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目状态更新错误");
         }
         Questionsubmit questionSubmitResult = questionsubmitService.getbyid(questionid);
+
+        //修改提交数和正确数
+        Params params=new Params();
+        params.setContent(questionid.toString());
+        Questionbank questionbank=questionbankService.findbyid(params);
+        Integer subitnum=questionbank.getSubmitnum();
+        questionbank.setSubmitnum(subitnum+1);
+        questionbankService.changenum(questionbank);
+        String judgeinfo=questionsubmitupdate.getJudgeInfo();
+        log.info("返回"+judgeinfo.contains("Accepted"));
+        if(judgeinfo.contains("Accepted"))
+        {
+            log.info("进入");
+            Integer solvenum=questionbank.getSolvenum();
+            questionbank.setSolvenum(solvenum+1);
+        }
+        questionbankService.changenum(questionbank);
         return questionSubmitResult;
     }
 }

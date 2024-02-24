@@ -6,9 +6,8 @@ import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
 import com.liu.practice.entity.*;
 import com.liu.practice.exception.BusinessException;
-import com.liu.practice.judge.codesandbox.model.JudgeInfo;
-import com.liu.practice.service.ConnectService;
 import com.liu.practice.service.EvaluateService;
+import com.liu.practice.service.QuestionbankService;
 import com.liu.practice.service.QuestionsubmitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +69,9 @@ public class QuestionsubmitController {
 
         long questionSubmitId = questionsubmitService.doQuestionSubmit(questionsubmit);
         log.info("提交成功");
+
+
+
         return Result.success(questionSubmitId);
     }
     @PostMapping("/submit_class")

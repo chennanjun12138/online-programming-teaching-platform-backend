@@ -15,14 +15,17 @@
             <if test="params != null and params.language != null and params.language != ''">
                 and language =#{ params.language }
             </if>
+            <if test="params != null and params.runresult != null and params.runresult != ''">
+                and JSON_EXTRACT(judgeInfo, '$.message') =#{ params.runresult }
+            </if>
+
         </where>
 
     </select>
     <select id="findByteachid" resultType="com.liu.practice.entity.Questionsubmit">
-        SELECT q.*
+        SELECT DISTINCT q.*
         FROM question_submit q
                  JOIN connect c ON q.userid = c.studentid
-
         <where>
             c.teacherid = #{params.teacherid}
             <if test="params != null and params.userid != null and params.userid != ''">
@@ -33,6 +36,9 @@
             </if>
             <if test="params != null and params.language != null and params.language != ''">
                 and language =#{ params.language }
+            </if>
+            <if test="params != null and params.runresult != null and params.runresult != ''">
+                and JSON_EXTRACT(judgeInfo, '$.message') =#{ params.runresult }
             </if>
         </where>
     </select>
