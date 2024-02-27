@@ -5,10 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.liu.practice.dao.ClassDao;
 import com.liu.practice.dao.ContractDao;
 import com.liu.practice.dao.CourseDao;
+import com.liu.practice.dao.NotebookDao;
+import com.liu.practice.entity.*;
 import com.liu.practice.entity.Class;
-import com.liu.practice.entity.Contract;
-import com.liu.practice.entity.Course;
-import com.liu.practice.entity.Params;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +23,17 @@ public class ClassService {
        private CourseDao courseDao;
        @Resource
        private ContractDao contractDao;
+
+       @Resource
+       private NotebookDao notebookDao;
+    public void addnotebook(Notebook notebook)
+    {
+        notebookDao.insertSelective(notebook);
+    }
+    public void updatenotebook(Notebook notebook)
+    {
+        notebookDao.updateByPrimaryKeySelective(notebook);
+    }
         public PageInfo<Class> findBySearch(Params params) {
             // 开启分页查询
             PageHelper.startPage(params.getPageNum(), params.getPageSize());
@@ -31,6 +41,11 @@ public class ClassService {
             List<Class> list = classDao.findBySearch(params);
             return PageInfo.of(list);
          }
+    public Notebook findnotebook(Params params) {
+
+        Notebook list = notebookDao.findBySearch(params);
+        return list;
+    }
     public List<Class> findall(Params params) {
 
         List<Class> list = classDao.findBySearch(params);

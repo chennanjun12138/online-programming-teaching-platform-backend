@@ -111,4 +111,27 @@ public class ClassController {
         }
         return Result.success();
     }
+
+    @PostMapping("/savenotebook")
+    public Result savenotebook(@RequestBody  Notebook book) {
+        Params params=new Params();
+        params.setClassid(book.getClassid());
+        params.setStudentid(book.getStudentid().toString());
+        Notebook ans= classService.findnotebook(params);
+
+        if (ans==null) {
+            classService.addnotebook(book);
+
+        } else {
+
+            book.setId(ans.getId());
+            classService.updatenotebook(book);
+        }
+        return Result.success();
+    }
+    @GetMapping("/getnotebook")
+    public Result findnotebookt(Params params) {
+        Notebook info = classService.findnotebook(params);
+        return Result.success(info);
+    }
 }
