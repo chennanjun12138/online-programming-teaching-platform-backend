@@ -164,68 +164,79 @@ public class HomeworkService {
             }
             for(String element:newlist)
             {
-                if (oldlist.contains(element)) {
-                    System.out.println(element + " exists in oldList.");
-                }
-                else
+                log.info("element"+ element);
+                if(!element.equals(""))
                 {
-                    Questionbank ans=questionbankDao.findByhomework(element);
-                    String belongid=ans.getBelongid();
-                    List<String> list2 = new ArrayList<>();
-                    if(belongid.equals("[]"))
-                    {
-                        list2.add(homeworkid);
-                        StringJoiner joiner = new StringJoiner(",", "[", "]");
-                        for (String str : list2) {
-                            joiner.add(str);
-                        }
-                        String result = joiner.toString();
-                        ans.setBelongid(result);
-                        questionbankDao.updateByPrimaryKeySelective(ans);
+                    if (oldlist.contains(element)) {
+                        System.out.println(element + " exists in oldList.");
                     }
                     else
                     {
-                        String  content1 = belongid.substring(1, belongid.length() - 1);
-                        String[] content2=content1.split(",");
-                        for(String k:content2)
+                        Questionbank ans=questionbankDao.findByhomework(element);
+                        String belongid=ans.getBelongid();
+                        List<String> list2 = new ArrayList<>();
+                        if(belongid.equals("[]"))
                         {
-                            list2.add(k);
+                            list2.add(homeworkid);
+                            StringJoiner joiner = new StringJoiner(",", "[", "]");
+                            for (String str : list2) {
+                                joiner.add(str);
+                            }
+                            String result = joiner.toString();
+                            ans.setBelongid(result);
+                            questionbankDao.updateByPrimaryKeySelective(ans);
                         }
-                        list2.add(homeworkid);
+                        else
+                        {
+                            String  content1 = belongid.substring(1, belongid.length() - 1);
+                            String[] content2=content1.split(",");
+                            for(String k:content2)
+                            {
+                                list2.add(k);
+                            }
+                            list2.add(homeworkid);
+                            StringJoiner joiner = new StringJoiner(",", "[", "]");
+                            for (String str : list2) {
+                                joiner.add(str);
+                            }
+                            String result = joiner.toString();
+                            ans.setBelongid(result);
+                            questionbankDao.updateByPrimaryKeySelective(ans);
+                        }
+                    }
+                }
+
+            }
+            for (String element2 :oldlist) {
+                log.info("element2"+element2);
+                if(!element2.equals(""))
+                {
+                    if (!newlist.contains(element2))
+                    {
+                        Questionbank questionbank=questionbankDao.findByhomework(element2);
+                        String ans = questionbank.getBelongid();
+
+                        String  content1 = ans.substring(1, ans.length() - 1);
+                        String[] content2=content1.split(",");
+                        List<String> list2 = new ArrayList<>();
+                        for(String j:content2)
+                        {
+                            j=j.trim();
+                            if(!j.equals(homeworkid.trim()))
+                            {
+                                list2.add(j);
+                            }
+                        }
                         StringJoiner joiner = new StringJoiner(",", "[", "]");
                         for (String str : list2) {
                             joiner.add(str);
                         }
                         String result = joiner.toString();
-                        ans.setBelongid(result);
-                        questionbankDao.updateByPrimaryKeySelective(ans);
+                        questionbank.setBelongid(result);
+                        questionbankDao.updateByPrimaryKeySelective(questionbank);
                     }
                 }
-            }
-            for (String element2 :oldlist) {
-                if (!newlist.contains(element2))
-                {
-                    Questionbank questionbank=questionbankDao.findByhomework(element2);
-                    String ans = questionbank.getBelongid();
-                    String  content1 = ans.substring(1, ans.length() - 1);
-                    String[] content2=content1.split(",");
-                    List<String> list2 = new ArrayList<>();
-                    for(String j:content2)
-                    {
-                        j=j.trim();
-                        if(!j.equals(homeworkid.trim()))
-                        {
-                            list2.add(j);
-                        }
-                    }
-                    StringJoiner joiner = new StringJoiner(",", "[", "]");
-                    for (String str : list2) {
-                        joiner.add(str);
-                    }
-                    String result = joiner.toString();
-                    questionbank.setBelongid(result);
-                    questionbankDao.updateByPrimaryKeySelective(questionbank);
-                }
+
             }
         }
 }

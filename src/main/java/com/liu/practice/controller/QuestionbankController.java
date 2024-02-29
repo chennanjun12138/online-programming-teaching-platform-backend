@@ -61,14 +61,15 @@ public class QuestionbankController {
         Params params = new Params();
         params.setContent(questionbank.getQuestionid());
 
-         log.info(questionbankService.findbyid(params).getBelongid());
+//         log.info(questionbankService.findbyid(params).getBelongid());
         // log.info("添加新题"+questionbank.getId().toString());
-         log.info(questionbank.getBelongid());
+  //       log.info(questionbank.getBelongid());
         if (questionbank.getId()== null) {
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = dateformat.format(System.currentTimeMillis());
             questionbank.setCreatetime(dateString);
-           questionbankService.add(questionbank);
+
+            questionbankService.add(questionbank);
         } else {
             String oldcontent= questionbankService.findbyid(params).getBelongid();
             questionbankService.update(questionbank,oldcontent);

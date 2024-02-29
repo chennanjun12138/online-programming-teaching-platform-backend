@@ -80,52 +80,58 @@ public class QuestionbankService {
                 res.add(value.trim());
             }
             for(String j:res) {
-                Homework homework = homeworkDao.findbyid(Integer.parseInt(j.trim()));
-                String ans = homework.getContent();
-                if (ans.equals("[]"))
+                if(!j.equals(""))
                 {
-                    List<String> list2 = new ArrayList<>();
-                    list2.add(questionid);
-                    StringJoiner joiner = new StringJoiner(",", "[", "]");
-                    for (String str : list2) {
-                        joiner.add(str);
-                    }
-                    String result = joiner.toString();
-                    homework.setContent(result);
-                    homeworkDao.updateByPrimaryKeySelective(homework);
-                }
-                else
-                {
-
-                    String  content1 = ans.substring(1, ans.length() - 1);
-                    // log.info(content1);
-                    String[] content2=content1.split(",");
-                    List<String> list3 = new ArrayList<>();
-                    // log.info(questionid);
-                    String flag="0";
-                    for(String k:content2)
+                    Homework homework = homeworkDao.findbyid(Integer.parseInt(j.trim()));
+                    String ans = homework.getContent();
+                    if (ans.equals("[]"))
                     {
-                        log.info("questionid："+k);
-                        list3.add(k);
-                        if(k.equals(questionid.trim()))
-                        {
-
-                           flag="1";
+                        List<String> list2 = new ArrayList<>();
+                        list2.add(questionid);
+                        StringJoiner joiner = new StringJoiner(",", "[", "]");
+                        for (String str : list2) {
+                            joiner.add(str);
                         }
+                        String result = joiner.toString();
+                        homework.setContent(result);
+                        homeworkDao.updateByPrimaryKeySelective(homework);
                     }
-                    if(flag.equals("0"))
+                    else
                     {
-                        list3.add(questionid);
+
+                        String  content1 = ans.substring(1, ans.length() - 1);
+                        // log.info(content1);
+                        String[] content2=content1.split(",");
+                        List<String> list3 = new ArrayList<>();
+                        // log.info(questionid);
+                        String flag="0";
+                        for(String k:content2)
+                        {
+                            log.info("questionid："+k);
+                            list3.add(k);
+                            if(k.equals(questionid.trim()))
+                            {
+
+                                flag="1";
+                            }
+                        }
+                        if(flag.equals("0"))
+                        {
+                            list3.add(questionid);
+                        }
+                        StringJoiner joiner = new StringJoiner(",", "[", "]");
+                        for (String str : list3) {
+                            joiner.add(str);
+                        }
+                        String result = joiner.toString();
+                        homework.setContent(result);
+                        homeworkDao.updateByPrimaryKeySelective(homework);
                     }
-                    StringJoiner joiner = new StringJoiner(",", "[", "]");
-                    for (String str : list3) {
-                        joiner.add(str);
-                    }
-                    String result = joiner.toString();
-                    homework.setContent(result);
-                    homeworkDao.updateByPrimaryKeySelective(homework);
                 }
+
             }
+            book.setSubmitnum(0);
+            book.setSolvenum(0);
             questionbankDao.insertSelective(book);
         }
 
