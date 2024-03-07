@@ -44,27 +44,18 @@ public class HomeworkService {
         // 接下来的查询会自动按照当前开启的分页设置来查询
         //  List<String> list = JSON.parseArray(steelGrade, String.class);
         String values =params.getTeacher(); // 去除空格
+
+
         //分割字符串
-        String[] valueArray = values.split(",");
+         String[] valueArray = values.split(",");
+
+
         List<String> list = new ArrayList<>();
         for (String value : valueArray) {
             list.add(value.trim());
-
         }
-        List<Homework> res=new ArrayList<>();
-        for(String value:list)
-        {
-            List<Homework>  ans=homeworkDao.findByteacher(value.trim());
-
-             for(Homework s1:ans)
-             {
-                 if(s1!=null)
-                 {
-                     res.add(s1);
-                 }
-             }
-        }
-         return PageInfo.of(res);
+        List<Homework>  ans=homeworkDao.findByteacher(list);
+         return PageInfo.of(ans);
     }
     public PageInfo<Submit> findsubmits(Params params) {
         // 开启分页查询

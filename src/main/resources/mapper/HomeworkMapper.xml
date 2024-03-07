@@ -17,7 +17,9 @@
     <select id="findByteacher" resultType="com.liu.practice.entity.Homework">
         select * from homework
         <where>
-            teacher=#{teacher}
+            <foreach collection="list" item="teacher" open="AND teacher IN (" separator="," close=")">
+                #{teacher}
+            </foreach>
         </where>
     </select>
     <select id="findbyid" resultType="com.liu.practice.entity.Homework">
