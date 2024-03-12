@@ -34,7 +34,7 @@ public class UserController {
         return Result.success();
     }
 
-    @GetMapping()
+    @GetMapping("/find")
     public Result getAll() {
         List<User> list= userService.getAll();
         return Result.success(list);
