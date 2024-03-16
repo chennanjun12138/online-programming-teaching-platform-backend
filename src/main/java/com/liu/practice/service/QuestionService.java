@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 
 @Service
 public class QuestionService {
@@ -24,7 +26,13 @@ public class QuestionService {
         return question;
     }
         public void add(Question book) {
-            questionDao.insertSelective(book);
+           try {
+               questionDao.insertSelective(book);
+           }
+           catch (Exception e)
+           {
+                log.println("该题号已存在");
+           }
         }
 
         public void update(Question book) {

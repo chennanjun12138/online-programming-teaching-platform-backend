@@ -12,4 +12,5 @@ public interface QuestionbankDao extends Mapper<Questionbank> {
     List<Questionbank> findBySearch(@Param("params") Params params);
     Questionbank findByhomework(String content);
     Questionbank findbyid(Integer id);
+    Questionbank findQuestionId(String questionid);
 }

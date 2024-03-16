@@ -56,20 +56,25 @@ public class QuestionbankController {
 
         return Result.success(info);
     }
+
     @PostMapping
     public Result save(@RequestBody Questionbank questionbank) {
         Params params = new Params();
         params.setContent(questionbank.getQuestionid());
 
-//         log.info(questionbankService.findbyid(params).getBelongid());
-        // log.info("添加新题"+questionbank.getId().toString());
-  //       log.info(questionbank.getBelongid());
         if (questionbank.getId()== null) {
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateString = dateformat.format(System.currentTimeMillis());
             questionbank.setCreatetime(dateString);
+            if(questionbankService.isJudge(questionbank.getQuestionid()))
+            {
+                questionbankService.add(questionbank);
+            }
+            else
+            {
+                return Result.error("该题号已经存在");
+            }
 
-            questionbankService.add(questionbank);
         } else {
             String oldcontent= questionbankService.findbyid(params).getBelongid();
             questionbankService.update(questionbank,oldcontent);

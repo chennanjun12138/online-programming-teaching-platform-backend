@@ -43,6 +43,19 @@ public class QuestionbankService {
         List<Questionbank> ans=questionbankDao.findBySearch(params);
         return  ans;
     }
+
+
+    public boolean isJudge(String questionId) {
+            Questionbank ans=questionbankDao.findQuestionId(questionId);
+            if(ans!=null)
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
+    }
+
     public PageInfo<Questionbank> findByhomework(Params params) {
         // 开启分页查询
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
