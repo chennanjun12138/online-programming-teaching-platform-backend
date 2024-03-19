@@ -9,6 +9,7 @@ import com.liu.practice.exception.BusinessException;
 import com.liu.practice.service.EvaluateService;
 import com.liu.practice.service.QuestionbankService;
 import com.liu.practice.service.QuestionsubmitService;
+import com.liu.practice.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @CrossOrigin
 @RestController
@@ -29,10 +31,28 @@ public class QuestionsubmitController {
     private QuestionsubmitService questionsubmitService;
     @Resource
     private EvaluateService evaluateService;
-
-
+    @Resource
+    private UserService userService;
+    public static boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
     @GetMapping("/search")
     public Result findBySearch(Params params) {
+        if(params.getName()!="")
+        {
+            if(isInteger(params.getName()))
+            {
+                params.setUserid(Integer.parseInt(params.getName()));
+            }
+            else
+            {
+                log.info("name:"+params.getName());
+                User user=userService.findByname(params.getName());
+                params.setUserid(user.getId());
+            }
+
+        }
         PageInfo<Questionsubmit> info = questionsubmitService.findBySearch(params);
         return Result.success(info);
     }
@@ -43,6 +63,20 @@ public class QuestionsubmitController {
     }
     @GetMapping("/getsubmitbyteachers")
     public Result getsubmitbyteachers(Params params) {
+        if(params.getName()!="")
+        {
+            if(isInteger(params.getName()))
+            {
+                params.setUserid(Integer.parseInt(params.getName()));
+            }
+            else
+            {
+                log.info("name:"+params.getName());
+                User user=userService.findByname(params.getName());
+                params.setUserid(user.getId());
+            }
+
+        }
         PageInfo<Questionsubmit> info = questionsubmitService.findByteachid(params);
         return Result.success(info);
     }
