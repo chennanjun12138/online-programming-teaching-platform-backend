@@ -21,6 +21,16 @@ public class Submit {
     private String teacherevaluate;
     @Column(name = "content")
     private String content;
+    @Column(name = "file_submit")
+    private String file_submit;
+
+    public String getFile_submit() {
+        return file_submit;
+    }
+
+    public void setFile_submit(String file_submit) {
+        this.file_submit = file_submit;
+    }
 
     public String getContent() {
         return content;
