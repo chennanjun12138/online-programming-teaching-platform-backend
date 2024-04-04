@@ -6,7 +6,9 @@ import com.liu.practice.common.JwtTokenUtils;
 import com.liu.practice.dao.UserDao;
 import com.liu.practice.entity.User;
 import com.liu.practice.entity.Params;
+import com.liu.practice.entity.UserVo;
 import com.liu.practice.exception.CustomException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -44,10 +46,42 @@ public class UserService {
         if (admin.getPassword() == null) {
             admin.setPassword("123456");
         }
+        // 创建bcrypt密码编码器
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        // 对密码进行bcrypt加密
+        String encryptedPassword = passwordEncoder.encode(admin.getPassword());
+
+        // 更新用户对象的密码为加密后的密码
+        admin.setPassword(encryptedPassword);
         userDao.insertSelective(admin);
     }
 
     public void update(User user) {
+        userDao.updateByPrimaryKeySelective(user);
+    }
+    public void updatePassword(UserVo userVo) {
+        User user = userDao.findByName(userVo.getName());
+        if ("".equals(userVo.getPasswordOld())) {
+            throw new CustomException("原密码不能为空");
+        }
+        if ("".equals(userVo.getPasswordNew())) {
+            throw new CustomException("新密码不能为空");
+        }
+        if ("".equals(userVo.getPasswordSure())) {
+            throw new CustomException("确认密码不能为空");
+        }
+        if(!userVo.getPasswordNew().equals(userVo.getPasswordSure()))
+        {
+            throw new CustomException("新密码和确认密码不一致");
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(userVo.getPasswordOld(),user.getPassword()))
+        {
+            throw new CustomException("原密码输入错误");
+        }
+        String encryptedPassword = passwordEncoder.encode(userVo.getPasswordNew());
+        user.setPassword(encryptedPassword);
         userDao.updateByPrimaryKeySelective(user);
     }
     public void delete(Integer id) {
@@ -62,10 +96,16 @@ public class UserService {
             throw new CustomException("密码不能为空");
         }
         // 2. 从数据库里面根据这个用户名和密码去查询对应的管理员信息，
-        User user = userDao.findByNameAndPassword(admin.getName(), admin.getPassword());
+        User user = userDao.findByName(admin.getName());
         if (user == null) {
-            // 如果查出来没有，那说明输入的用户名或者密码有误，提示用户，不允许登录
-            throw new CustomException("用户名或密码输入错误");
+            // 如果查出来没有，那说明输入的用户名，提示用户，不允许登录
+            throw new CustomException("用户名输入错误");
+        }
+        // 创建bcrypt密码编码器
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(admin.getPassword(),user.getPassword()))
+        {
+            throw new CustomException("密码输入错误");
         }
         // 如果查出来了有，那说明确实有这个管理员，而且输入的用户名和密码都对；
         //生成该登录用户对应的token,然后跟着user一起返回到前台

@@ -5,6 +5,7 @@ import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
 import com.liu.practice.entity.User;
 import com.liu.practice.entity.Params;
+import com.liu.practice.entity.UserVo;
 import com.liu.practice.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,12 @@ public class UserController {
         } else {
             userService.update(user);
         }
+        return Result.success();
+    }
+    @PostMapping("/update")
+    public Result UpdatePassword(@RequestBody UserVo userVo) {
+        log.info("拦截器已放行");
+        userService.updatePassword(userVo);
         return Result.success();
     }
     @DeleteMapping("/{id}")
