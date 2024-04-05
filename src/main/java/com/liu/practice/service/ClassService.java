@@ -101,4 +101,8 @@ public class ClassService {
              courseDao.deleteByPrimaryKey(id);
              contractDao.deletebyclassid(id);
         }
+    public void deletecontract(Integer classid,Integer questionid) {
+
+        contractDao.deleteBy(classid,questionid);
+    }
 }

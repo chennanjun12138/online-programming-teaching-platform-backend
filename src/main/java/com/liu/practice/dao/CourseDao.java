@@ -12,5 +12,4 @@ import java.util.List;
 public interface CourseDao extends Mapper<Course> {
      Course findBySearch(Integer classid);
 
-
 }

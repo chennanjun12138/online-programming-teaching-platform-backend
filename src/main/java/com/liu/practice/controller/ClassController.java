@@ -76,6 +76,14 @@ public class ClassController {
            }
             return Result.success(res);
     }
+    @DeleteMapping("/deleteContract")
+    public Result deleteContract(@RequestBody Contract contract)
+    {
+        Integer classid=contract.getClassid();
+        Integer questionid=contract.getQuestionid();
+        classService.deletecontract(classid,questionid);
+        return Result.success();
+    }
     @PostMapping("/judge")
     public Result judgecontact(@RequestBody Contract contract)
     {
