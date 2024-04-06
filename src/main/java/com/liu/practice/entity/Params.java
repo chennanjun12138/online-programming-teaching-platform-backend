@@ -27,6 +27,24 @@ public class Params {
         private Course course;
         private  Integer question_submitid;
         private  String runresult;
+        private String sendname;
+        private String acceptname;
+
+    public String getSendname() {
+        return sendname;
+    }
+
+    public void setSendname(String sendname) {
+        this.sendname = sendname;
+    }
+
+    public String getAcceptname() {
+        return acceptname;
+    }
+
+    public void setAcceptname(String acceptname) {
+        this.acceptname = acceptname;
+    }
 
     public String getRunresult() {
         return runresult;

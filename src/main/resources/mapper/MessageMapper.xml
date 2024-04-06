@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.practice.dao.MessageDao">
+    <select id="findBySearch" resultType="com.liu.practice.entity.Message">
+        select * from message  ORDER BY `sendtime` DESC
+        <where>
+            <if test="params != null and params.sendname != null and params.sendname != ''">
+                and sendname =#{ params.sendname}
+            </if>
+            <if test="params != null and params.acceptname != null and params.acceptname != ''">
+                and acceptname like concat('%', #{ params.acceptname }, '%')
+            </if>
+
+        </where>
+    </select>
+</mapper>
