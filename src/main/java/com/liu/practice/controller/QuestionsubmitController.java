@@ -49,6 +49,10 @@ public class QuestionsubmitController {
             {
                 log.info("name:"+params.getName());
                 User user=userService.findByname(params.getName());
+                if(user==null)
+                {
+                    return Result.error("请输入完整用户名");
+                }
                 params.setUserid(user.getId());
             }
 
