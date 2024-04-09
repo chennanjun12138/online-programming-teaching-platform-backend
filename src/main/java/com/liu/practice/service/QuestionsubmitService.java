@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -81,9 +83,20 @@ public class QuestionsubmitService extends CodeSandboxTemplate {
         }
         // 执行判题服务
         String code = questionsubmit.getCode();
+
+        List<String> inputlist = new ArrayList<>();
+        if(questionsubmit.getInputcontent()!=null)
+        {
+            String[] lines = questionsubmit.getInputcontent().split("\n");
+            for (String line : lines) {
+                String[] parts = line.split("\n");
+                inputlist.addAll(Arrays.asList(parts));
+            }
+        }
         ExecuteCodeRequest executeCodeRequest=ExecuteCodeRequest.builder()
                 .code(code)
                 .language(language)
+                .inputList(inputlist)
                 .build();
         ExecuteCodeResponse executeCodeResponse=super.executeCode(executeCodeRequest);
         List<String> outputList = executeCodeResponse.getOutputList();

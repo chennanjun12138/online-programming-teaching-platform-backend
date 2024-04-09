@@ -67,6 +67,17 @@ public class Questionsubmit  {
     @Column(name = "updateTime")
     private Date updateTime;
 
+    @Transient
+    private String inputcontent;
+
+    public String getInputcontent() {
+        return inputcontent;
+    }
+
+    public void setInputcontent(String inputcontent) {
+        this.inputcontent = inputcontent;
+    }
+
     public Long getId() {
         return id;
     }

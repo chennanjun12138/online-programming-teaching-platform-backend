@@ -30,6 +30,7 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         List<String> inputList = executeCodeRequest.getInputList();
+        log.info(inputList.toString());
         String code = executeCodeRequest.getCode();
         String language = executeCodeRequest.getLanguage();
 
@@ -41,7 +42,7 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
         System.out.println(compileFileExecuteMessage);
 
         // 3. 执行代码，得到输出结果
-        List<ExecuteMessage> executeMessageList = runFile(userCodeFile,language);
+        List<ExecuteMessage> executeMessageList = runFile(userCodeFile,language,inputList);
         System.out.println("最终结果："+executeMessageList);
 //        4. 收集整理输出结果
         ExecuteCodeResponse outputResponse = getOutputResponse(executeMessageList);
@@ -78,7 +79,7 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
         }
         else if("c".equals(language))
         {
-            log.info("进入");
+
             userCodePath=userCodeParentPath + File.separator+GLOBAL_C_CLASS_NAME;
         }
         log.info("path:"+userCodePath);
@@ -101,6 +102,7 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
         else if("c".equals(language))
         {
             compileCmd= String.format("gcc %s -o Main", userCodeFile.getAbsolutePath());
+            log.info(compileCmd);
         }
 
         try {
@@ -121,29 +123,59 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
      *
      * @return
      */
-    public List<ExecuteMessage> runFile(File userCodeFile,String language) {
+    public List<ExecuteMessage> runFile(File userCodeFile,String language,List<String> inputList) {
         String userCodeParentPath = userCodeFile.getParentFile().getAbsolutePath();
 
         List<ExecuteMessage> executeMessageList = new ArrayList<>();
-
-        String runCmd ="";
-        if("java".equals(language))
+        if(inputList==null||inputList.isEmpty())
         {
-            runCmd=String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main ", userCodeParentPath);
-        }
-        else if("c".equals(language))
-        {
-            runCmd=String.format("Main", userCodeParentPath);
-        }
-        try {
-            Process runProcess = Runtime.getRuntime().exec(runCmd);
 
-            ExecuteMessage executeMessage = ProcessUtils.runProcessAndGetMessage(runProcess, "运行");
-            System.out.println(executeMessage);
-            executeMessageList.add(executeMessage);
-        } catch (Exception e) {
-            throw new RuntimeException("执行错误", e);
+            String runCmd ="";
+            if("java".equals(language))
+            {
+                runCmd=String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main ", userCodeParentPath);
+            }
+            else if("c".equals(language))
+            {
+                runCmd=String.format("Main", userCodeParentPath);
+                log.info(runCmd);
+            }
+            try {
+                Process runProcess = Runtime.getRuntime().exec(runCmd);
+                ExecuteMessage executeMessage = ProcessUtils.runProcessAndGetMessage(runProcess, "运行");
+                System.out.println(executeMessage);
+                executeMessageList.add(executeMessage);
+            } catch (Exception e) {
+                throw new RuntimeException("执行错误", e);
+            }
         }
+        else {
+
+                for(String item:inputList)
+                {
+
+                    String runCmd ="";
+                    if("java".equals(language))
+                    {
+                        runCmd=String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main %s", userCodeParentPath,item);
+                    }
+                    else if("c".equals(language))
+                    {
+
+                        runCmd=String.format("Main",userCodeParentPath);
+                        log.info(runCmd);
+                    }
+                    try {
+                        Process runProcess = Runtime.getRuntime().exec(runCmd);
+                        ExecuteMessage  executeMessage = ProcessUtils.runInteractProcessAndGetMessage(runProcess, item);
+                        System.out.println(executeMessage);
+                        executeMessageList.add(executeMessage);
+                    } catch (Exception e) {
+                        throw new RuntimeException("执行错误", e);
+                    }
+                }
+        }
+
         return executeMessageList;
     }
 
