@@ -2,20 +2,26 @@ package com.liu.practice.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.JwtTokenUtils;
 import com.liu.practice.dao.UserDao;
 import com.liu.practice.entity.User;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.UserVo;
 import com.liu.practice.exception.CustomException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 @Service
 public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
     @Resource
     private UserDao userDao;
@@ -62,13 +68,14 @@ public class UserService {
     }
     public void updatePassword(UserVo userVo) {
         User user = userDao.findByName(userVo.getName());
-        if ("".equals(userVo.getPasswordOld())) {
+
+        if (userVo.getPasswordOld()== null ||"".equals(userVo.getPasswordOld())) {
             throw new CustomException("原密码不能为空");
         }
-        if ("".equals(userVo.getPasswordNew())) {
+        if (userVo.getPasswordNew()== null ||"".equals(userVo.getPasswordNew())) {
             throw new CustomException("新密码不能为空");
         }
-        if ("".equals(userVo.getPasswordSure())) {
+        if (userVo.getPasswordSure()== null ||"".equals(userVo.getPasswordSure())) {
             throw new CustomException("确认密码不能为空");
         }
         if(!userVo.getPasswordNew().equals(userVo.getPasswordSure()))

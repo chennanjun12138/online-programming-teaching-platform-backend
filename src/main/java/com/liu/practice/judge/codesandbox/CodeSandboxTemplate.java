@@ -150,30 +150,31 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
             }
         }
         else {
-
+                String ans="";
                 for(String item:inputList)
                 {
-
-                    String runCmd ="";
-                    if("java".equals(language))
-                    {
-                        runCmd=String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main %s", userCodeParentPath,item);
-                    }
-                    else if("c".equals(language))
-                    {
-
-                        runCmd=String.format("Main",userCodeParentPath);
-                        log.info(runCmd);
-                    }
-                    try {
-                        Process runProcess = Runtime.getRuntime().exec(runCmd);
-                        ExecuteMessage  executeMessage = ProcessUtils.runInteractProcessAndGetMessage(runProcess, item);
-                        System.out.println(executeMessage);
-                        executeMessageList.add(executeMessage);
-                    } catch (Exception e) {
-                        throw new RuntimeException("执行错误", e);
-                    }
+                        ans+=item;
+                        ans+=" ";
                 }
+            String runCmd ="";
+            if("java".equals(language))
+            {
+                    runCmd=String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main %s", userCodeParentPath,ans);
+            }
+            else if("c".equals(language))
+            {
+
+                runCmd=String.format("Main",userCodeParentPath);
+                log.info(runCmd);
+            }
+            try {
+                Process runProcess = Runtime.getRuntime().exec(runCmd);
+                ExecuteMessage  executeMessage = ProcessUtils.runInteractProcessAndGetMessage(runProcess, ans);
+                System.out.println(executeMessage);
+                executeMessageList.add(executeMessage);
+            } catch (Exception e) {
+                throw new RuntimeException("执行错误", e);
+            }
         }
 
         return executeMessageList;
