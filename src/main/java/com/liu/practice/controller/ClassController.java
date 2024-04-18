@@ -6,6 +6,7 @@ import com.liu.practice.common.Result;
 import com.liu.practice.entity.*;
 import com.liu.practice.entity.Class;
 import com.liu.practice.service.ClassService;
+import com.liu.practice.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,6 @@ public class ClassController {
 
     @Resource
     private ClassService classService;
-
     @GetMapping("/search")
     public Result findBySearch(Params params) {
         PageInfo<Class> info = classService.findBySearch(params);
@@ -46,7 +46,6 @@ public class ClassController {
     public Result save(@RequestBody  Class book) {
         if (book.getId() == null) {
             classService.add(book);
-
         } else {
             classService.update(book);
         }

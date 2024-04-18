@@ -46,19 +46,35 @@ public class ConnectController {
         params.setStudentid(connect.getStudentid());
         params.setTeachername(connect.getTeachername());
         params.setClassid(Integer.parseInt(connect.getClassid()));
-        User teacher=userService.findByname(connect.getTeachername());
 
-        connect.setTeacherid(teacher.getId().toString());
 
         Integer flag=0;
         if(connectService.findjudge(params))
         {
-             flag=1;
-           connectService.add(connect);
 
+             User teacher=userService.findByname(connect.getTeachername());
+             if(teacher!=null)
+             {   flag=1;
+                 connect.setTeacherid(teacher.getId().toString());
+                 connectService.add(connect);
+             }
         }
-
-        return Result.success(flag);
+        else
+        {
+            flag=2;
+        }
+        if(flag==1)
+        {
+            return Result.success();
+        }
+        else if(flag==2)
+        {
+            return Result.error("该关系已存在");
+        }
+        else
+        {
+            return Result.error("添加关系失败，该教师已退出平台");
+        }
     }
 
     @DeleteMapping("/{id}")

@@ -10,12 +10,19 @@ import com.liu.practice.entity.Homework;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.Questionbank;
 import com.liu.practice.entity.Submit;
+import com.liu.practice.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -79,7 +86,23 @@ public class HomeworkService {
         }
         public void addsubmit(Submit submit)
         {
-              submitDao.insertSelective(submit);
+            Homework homework=homeworkDao.findbyid(submit.getHomeworkid());
+            String dateTimeStr = submit.getSubmittime(); // 假设 submit.getSubmittime() 返回的是完整日期时间字符串
+
+            // 提取日期部分并转换为 LocalDate 对象
+            LocalDate localDate = LocalDate.parse(dateTimeStr.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            // 提取作业的起始日期和结束日期，并转换为 LocalDate 对象
+            LocalDate startDate = LocalDate.parse(homework.getStarttime(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate endDate = LocalDate.parse(homework.getEndtime(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            // 判断给定日期是否在规定范围内
+            if (localDate.isAfter(startDate.minusDays(1)) && localDate.isBefore(endDate.plusDays(1))) {
+                submitDao.insertSelective(submit);
+            } else {
+                throw new CustomException("提交时间不在规定时间");
+            }
+
         }
         public void changesubmit(Submit submit)
         {

@@ -19,7 +19,7 @@ import java.util.List;
 public class ConnectService {
     private static final Logger log  = LoggerFactory.getLogger(JwtInterceptor.class);
 
-    @Resource
+       @Resource
        private ConnectDao connectDao;
         public boolean findjudge(Params params) {
             // 开启分页查询
@@ -63,4 +63,5 @@ public class ConnectService {
          public void delete(Integer id) {
              connectDao.deleteByPrimaryKey(id);
         }
+
 }

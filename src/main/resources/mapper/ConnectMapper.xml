@@ -31,4 +31,22 @@
             teacherid=#{teacherid}
         </where>
     </select>
+    <delete id="deleteByStudentId">
+        delete  from connect
+        <where>
+            studentid=#{studentid}
+        </where>
+    </delete>
+    <delete id="deleteByTeacherId">
+        delete  from connect
+        <where>
+            teacherid=#{teacherid}
+        </where>
+    </delete>
+    <delete id="deleteByClassId">
+        delete  from connect
+        <where>
+            classid=#{classid}
+        </where>
+    </delete>
 </mapper>

@@ -18,4 +18,7 @@ public interface ConnectDao extends Mapper<Connect> {
     List<Connect> findjudge(@Param("params") Params params);
     List<String> findteachers(@Param("params") Params params);
     List<String> findbyteacherid(Integer teacherid);
+    void deleteByStudentId(Integer studentid);
+    void deleteByTeacherId(Integer teacherid);
+    void deleteByClassId(Integer classid);
 }

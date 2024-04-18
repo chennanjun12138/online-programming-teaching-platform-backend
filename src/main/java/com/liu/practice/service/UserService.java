@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.JwtTokenUtils;
+import com.liu.practice.dao.ConnectDao;
 import com.liu.practice.dao.UserDao;
 import com.liu.practice.entity.User;
 import com.liu.practice.entity.Params;
@@ -25,7 +26,8 @@ public class UserService {
 
     @Resource
     private UserDao userDao;
-
+    @Resource
+    private ConnectDao connectDao;
     public List<User> getAll() {
         //return adminDao.getUser();
         // 3. 使用引入的包
@@ -92,7 +94,18 @@ public class UserService {
         userDao.updateByPrimaryKeySelective(user);
     }
     public void delete(Integer id) {
-        userDao.deleteByPrimaryKey(id);
+
+        User user=userDao.findUser(id);
+        log.info(user.getRole());
+        if("ROLE_STUDENT".equals(user.getRole()))
+        {
+            connectDao.deleteByStudentId(id);
+        }
+        else if("ROLE_TEACHER".equals(user.getRole()))
+        {
+            connectDao.deleteByTeacherId(id);
+        }
+         userDao.deleteByPrimaryKey(id);
     }
     public User login(User admin) {
         // 1. 进行一些非空判断

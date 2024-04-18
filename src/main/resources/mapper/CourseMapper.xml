@@ -7,4 +7,10 @@
                 classid=#{classid}
         </where>
     </select>
+    <delete id="deletebyclassid">
+        delete  from course
+        <where>
+            classid=#{classid}
+        </where>
+    </delete>
 </mapper>

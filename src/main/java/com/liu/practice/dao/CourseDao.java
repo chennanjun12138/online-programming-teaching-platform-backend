@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface CourseDao extends Mapper<Course> {
      Course findBySearch(Integer classid);
+     void deletebyclassid(Integer classid);
 
 }

@@ -2,12 +2,13 @@ package com.liu.practice.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.liu.practice.dao.ClassDao;
-import com.liu.practice.dao.ContractDao;
-import com.liu.practice.dao.CourseDao;
-import com.liu.practice.dao.NotebookDao;
+import com.liu.practice.common.JwtInterceptor;
+import com.liu.practice.dao.*;
 import com.liu.practice.entity.*;
 import com.liu.practice.entity.Class;
+import com.liu.practice.exception.CustomException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,15 +18,20 @@ import java.util.List;
 
 @Service
 public class ClassService {
-       @Resource
+    private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
+
+      @Resource
        private ClassDao classDao;
        @Resource
        private CourseDao courseDao;
        @Resource
        private ContractDao contractDao;
-
        @Resource
        private NotebookDao notebookDao;
+       @Resource
+       private UserDao userDao;
+        @Resource
+        private ConnectDao connectDao;
     public void addnotebook(Notebook notebook)
     {
         notebookDao.insertSelective(notebook);
@@ -89,7 +95,17 @@ public class ClassService {
             courseDao.updateByPrimaryKeySelective(course);
         }
          public void add(Class book) {
-                classDao.insertSelective(book);
+
+             User user=userDao.findByName(book.getAuthor());
+             if("ROLE_TEACHER".equals(user.getRole())||"ROLE_ADMIN".equals(user.getRole()))
+             {
+                 classDao.insertSelective(book);
+             }
+             else
+             {
+                 throw new CustomException("该用户不是教师或管理员");
+             }
+
         }
 
         public void update(Class book) {
@@ -98,8 +114,9 @@ public class ClassService {
 
          public void delete(Integer id) {
              classDao.deleteByPrimaryKey(id);
-             courseDao.deleteByPrimaryKey(id);
+             courseDao.deletebyclassid(id);
              contractDao.deletebyclassid(id);
+             connectDao.deleteByClassId(id);
         }
     public void deletecontract(Integer classid,Integer questionid) {
 
