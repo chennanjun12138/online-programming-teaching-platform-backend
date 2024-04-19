@@ -4,8 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.JwtTokenUtils;
-import com.liu.practice.dao.ConnectDao;
-import com.liu.practice.dao.UserDao;
+import com.liu.practice.dao.*;
 import com.liu.practice.entity.User;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.UserVo;
@@ -28,6 +27,10 @@ public class UserService {
     private UserDao userDao;
     @Resource
     private ConnectDao connectDao;
+    @Resource
+    private NotebookDao notebookDao;
+    @Resource
+    private EvaluateDao evaluateDao;
     public List<User> getAll() {
         //return adminDao.getUser();
         // 3. 使用引入的包
@@ -100,10 +103,12 @@ public class UserService {
         if("ROLE_STUDENT".equals(user.getRole()))
         {
             connectDao.deleteByStudentId(id);
+            notebookDao.deleteByStudentId(id);
         }
         else if("ROLE_TEACHER".equals(user.getRole()))
         {
             connectDao.deleteByTeacherId(id);
+            evaluateDao.deletebyteacherid(id);
         }
          userDao.deleteByPrimaryKey(id);
     }

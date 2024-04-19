@@ -7,7 +7,9 @@ import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.Result;
 import com.liu.practice.entity.Homework;
 import com.liu.practice.entity.Params;
+import com.liu.practice.entity.Questionbank;
 import com.liu.practice.entity.Submit;
+import com.liu.practice.exception.CustomException;
 import com.liu.practice.service.HomeworkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +56,23 @@ public class HomeworkController {
     }
     @PostMapping
     public Result save(@RequestBody Homework book) {
-
+        String  values = book.getContent().substring(1, book.getContent().length() - 1);
+        String[] valueArray = values.split(",");
+        List<String> newlist = new ArrayList<>();
+        for (String value : valueArray) {
+            newlist.add(value.trim());
+        }
+        for(String element:newlist)
+        {
+            if(!element.equals(""))
+            {
+                Questionbank ans=homeworkService.findQuestionbank(element);
+                if(ans==null)
+                {
+                    return Result.error("有题目不存在");
+                }
+            }
+        }
         String oldcontent;
          if (book.getId() == null) {
              oldcontent="[]";
@@ -65,8 +83,6 @@ public class HomeworkController {
              oldcontent=homeworkService.findbyid(book.getId()).getContent();
              homeworkService.update(book);
         }
-
-
          log.info("oldcontent"+oldcontent);
          log.info("newcoent"+book.getContent());
          homeworkService.changeblongid(book.getContent(),book.getHomeworkid(),oldcontent);

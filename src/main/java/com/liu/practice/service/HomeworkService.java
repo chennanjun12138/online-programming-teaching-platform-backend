@@ -100,7 +100,7 @@ public class HomeworkService {
             if (localDate.isAfter(startDate.minusDays(1)) && localDate.isBefore(endDate.plusDays(1))) {
                 submitDao.insertSelective(submit);
             } else {
-                throw new CustomException("提交时间不在规定时间");
+                throw new CustomException("提交时间不在规定时间内");
             }
 
         }
@@ -113,7 +113,6 @@ public class HomeworkService {
 
         public void update(Homework book) {
             homeworkDao.updateByPrimaryKeySelective(book);
-
          }
          public Homework findbyid(Integer id)
          {
@@ -161,6 +160,10 @@ public class HomeworkService {
              homeworkDao.deletebyhomeworkid(id);
              submitDao.deletebyhomeworkid(id);
         }
+        public Questionbank findQuestionbank(String element)
+        {
+            return  questionbankDao.findByhomework(element);
+        }
 
         public void changeblongid(String newcotent,String homeworkid,String oldcotnet)
         {
@@ -187,6 +190,10 @@ public class HomeworkService {
                     else
                     {
                         Questionbank ans=questionbankDao.findByhomework(element);
+                        if(ans==null)
+                        {
+                            throw new CustomException("有题目不存在");
+                        }
                         String belongid=ans.getBelongid();
                         List<String> list2 = new ArrayList<>();
                         if(belongid.equals("[]"))

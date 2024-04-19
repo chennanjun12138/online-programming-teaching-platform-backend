@@ -35,5 +35,10 @@
                 id=#{id}
          </where>
     </select>
-
+    <delete id="deletebyhomeworkid">
+        delete  from homework
+        <where>
+            homeworkid=#{homeworkid}
+        </where>
+    </delete>
 </mapper>

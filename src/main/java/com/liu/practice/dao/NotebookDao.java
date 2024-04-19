@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface NotebookDao extends Mapper<Notebook> {
     Notebook findBySearch(@Param("params") Params params);
-
+    void deleteByStudentId(Integer studentid);
+    void deleteByClassId(Integer classid);
 }

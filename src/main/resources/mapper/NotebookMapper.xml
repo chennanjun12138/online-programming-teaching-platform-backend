@@ -7,5 +7,16 @@
                 classid=#{ params.classid }   and  studentid=#{ params.studentid}
         </where>
     </select>
-
+    <delete id="deleteByStudentId">
+        delete  from connect
+        <where>
+            studentid=#{studentid}
+        </where>
+    </delete>
+    <delete id="deleteByClassId">
+        delete  from notebook
+        <where>
+            classid=#{classid}
+        </where>
+    </delete>
 </mapper>

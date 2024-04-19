@@ -8,4 +8,10 @@
 
         </where>
     </select>
+    <delete id="deletebyteacherid">
+        delete  from evaluate
+        <where>
+            teacherid=#{teacherid}
+        </where>
+    </delete>
 </mapper>

@@ -117,6 +117,7 @@ public class ClassService {
              courseDao.deletebyclassid(id);
              contractDao.deletebyclassid(id);
              connectDao.deleteByClassId(id);
+             notebookDao.deleteByClassId(id);
         }
     public void deletecontract(Integer classid,Integer questionid) {
 

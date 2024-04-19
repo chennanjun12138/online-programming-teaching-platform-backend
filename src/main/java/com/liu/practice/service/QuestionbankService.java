@@ -8,14 +8,13 @@ import com.liu.practice.dao.QuestionbankDao;
 import com.liu.practice.entity.Homework;
 import com.liu.practice.entity.Params;
 import com.liu.practice.entity.Questionbank;
+import com.liu.practice.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 
 @Service
@@ -31,6 +30,14 @@ public class QuestionbankService {
             PageHelper.startPage(params.getPageNum(), params.getPageSize());
             // 接下来的查询会自动按照当前开启的分页设置来查询
             List<Questionbank> list = questionbankDao.findBySearch(params);
+            Collections.sort(list, new Comparator<Questionbank>() {
+                @Override
+                public int compare(Questionbank q1, Questionbank q2) {
+                    int num1 = Integer.parseInt(q1.getQuestionid());
+                    int num2 = Integer.parseInt(q2.getQuestionid());
+                    return Integer.compare(num1, num2);
+                }
+            });
             return PageInfo.of(list);
      }
      public Questionbank findbyid(Params params)
@@ -96,6 +103,10 @@ public class QuestionbankService {
                 if(!j.equals(""))
                 {
                     Homework homework = homeworkDao.findbyid(Integer.parseInt(j.trim()));
+                    if(homework==null)
+                    {
+                        throw new CustomException("有作业不存在");
+                    }
                     String ans = homework.getContent();
                     if (ans.equals("[]"))
                     {
@@ -163,12 +174,19 @@ public class QuestionbankService {
             for (String value : o2) {
                 oldlist.add(value.trim());
             }
+
             for (String element : newlist) {
-                if (oldlist.contains(element)) {
-                    System.out.println(element + " exists in oldList.");
-                } else {
+//                if (oldlist.contains(element)) {
+//                    System.out.println(element + " exists in oldList.");
+//                }
+//                else
+                if(!oldlist.contains(element)&&!"".equals(element)&&element!=null){
                     System.out.println(element + " does not exist in oldList.");
                     Homework homework = homeworkDao.findbyid(Integer.parseInt(element.trim()));
+                    if(homework==null)
+                    {
+                        throw new CustomException("有作业不存在");
+                    }
                     String ans = homework.getContent();
                     List<String> list2 = new ArrayList<>();
                     if(ans.equals("[]"))
@@ -203,7 +221,8 @@ public class QuestionbankService {
                 }
             }
             for (String element2 :oldlist) {
-                if (!newlist.contains(element2))
+                log.info("element2:"+element2);
+                if (!newlist.contains(element2)&&!"".equals(element2)&&element2!=null)
                 {
                     Homework homework = homeworkDao.findbyid(Integer.parseInt(element2.trim()));
                     String ans = homework.getContent();

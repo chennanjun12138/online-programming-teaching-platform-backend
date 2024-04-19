@@ -69,7 +69,7 @@ public class ConnectController {
         }
         else if(flag==2)
         {
-            return Result.error("该关系已存在");
+            return Result.success(flag);
         }
         else
         {

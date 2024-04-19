@@ -76,6 +76,10 @@ public class QuestionbankController {
             }
 
         } else {
+            if(questionbankService.findbyid(params)==null)
+            {
+                return Result.error("禁止修改题号");
+            }
             String oldcontent= questionbankService.findbyid(params).getBelongid();
             questionbankService.update(questionbank,oldcontent);
         }
