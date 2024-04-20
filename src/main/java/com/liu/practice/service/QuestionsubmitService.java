@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.ErrorCode;
 import com.liu.practice.common.JwtInterceptor;
+import com.liu.practice.dao.QuestionbankDao;
 import com.liu.practice.dao.QuestionsubmitDao;
 import com.liu.practice.entity.*;
 import com.liu.practice.enums.QuestionSubmitLanguageEnum;
@@ -36,7 +37,7 @@ public class QuestionsubmitService extends CodeSandboxTemplate {
     @Resource
     private QuestionService questionService;
     @Resource
-    private ConnectService connectService;
+    private QuestionbankDao questionbankDao;
     public long doQuestionSubmit(Questionsubmit questionsubmit) {
         // 校验编程语言是否合法
         String language = questionsubmit.getLanguage();
@@ -164,6 +165,21 @@ public class QuestionsubmitService extends CodeSandboxTemplate {
          }
 
          public void delete(Integer id) {
+             Questionsubmit questionsubmit=questionsubmitDao.getbyid(Long.valueOf(id));
+             Long questionid=questionsubmit.getQuestionid();
+             Questionbank questionbank=questionbankDao.findByhomework(questionid.toString());
+             Integer subitnum=questionbank.getSubmitnum();
+             questionbank.setSubmitnum(subitnum-1);
+             questionbankDao.updateByPrimaryKeySelective(questionbank);
+             String judgeinfo=questionsubmit.getJudgeInfo();
+             log.info("返回"+judgeinfo.contains("Accepted"));
+             if(judgeinfo.contains("Accepted"))
+             {
+                 log.info("进入");
+                 Integer solvenum=questionbank.getSolvenum();
+                 questionbank.setSolvenum(solvenum-1);
+             }
+             questionbankDao.updateByPrimaryKeySelective(questionbank);
              questionsubmitDao.deleteByPrimaryKey(id);
         }
     public Questionsubmit findbyid(Integer id)

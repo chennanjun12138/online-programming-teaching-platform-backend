@@ -119,7 +119,10 @@ public class QuestionsubmitController {
     @PostMapping("/submit_class")
     public Result doClassSubmit(@RequestBody Questionsubmit questionsubmit) {
         List<String>  judgeInfo = questionsubmitService.runSubmit(questionsubmit);
-        log.info("提交成功");
+        if(judgeInfo.get(0)=="编译错误")
+        {
+            return Result.error("编译错误");
+        }
         return Result.success(judgeInfo);
     }
     @DeleteMapping("/{id}")

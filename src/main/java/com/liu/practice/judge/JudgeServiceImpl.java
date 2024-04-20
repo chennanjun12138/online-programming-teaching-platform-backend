@@ -112,7 +112,43 @@ public class JudgeServiceImpl implements JudgeService {
         List<String> outputList = executeCodeResponse.getOutputList();
         // 5）根据沙箱的执行结果，设置题目的判题状态和信息
         log.info(inputList.toString());
-        log.info("代码沙箱执行结果:"+outputList);
+        log.info("代码沙箱执行结果:"+outputList.get(0));
+        if("编译错误".equals(outputList.get(0)))
+        {
+            log.info("成功进入");
+            JudgeInfo judgeInfo=new JudgeInfo();
+            judgeInfo.setMessage("编译错误");
+            judgeInfo.setTime(0L);
+            judgeInfo.setMemory(0L);
+            questionsubmitupdate = new Questionsubmit();
+            questionsubmitupdate.setId(questionSubmitId);
+            questionsubmitupdate.setStatus(QuestionSubmitStatusEnum.FAILED.getValue());
+            questionsubmitupdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
+            log.info(questionsubmitupdate.getJudgeInfo());
+            update = questionsubmitService.update(questionsubmitupdate);
+            if (!update) {
+                throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目状态更新错误");
+            }
+            Questionsubmit questionSubmitResult = questionsubmitService.getbyid(questionid);
+
+            //修改提交数和正确数
+            Params params=new Params();
+            params.setContent(questionid.toString());
+            Questionbank questionbank=questionbankService.findbyid(params);
+            Integer subitnum=questionbank.getSubmitnum();
+            questionbank.setSubmitnum(subitnum+1);
+            questionbankService.changenum(questionbank);
+            String judgeinfo=questionsubmitupdate.getJudgeInfo();
+            log.info("返回"+judgeinfo.contains("Accepted"));
+            if(judgeinfo.contains("Accepted"))
+            {
+                log.info("进入");
+                Integer solvenum=questionbank.getSolvenum();
+                questionbank.setSolvenum(solvenum+1);
+            }
+            questionbankService.changenum(questionbank);
+            return questionSubmitResult;
+        }
         JudgeContext judgeContext = new JudgeContext();
         judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
         judgeContext.setInputList(inputList);

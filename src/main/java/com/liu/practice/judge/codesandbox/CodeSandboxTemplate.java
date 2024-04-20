@@ -40,6 +40,18 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
 //        2. 编译代码
         ExecuteMessage compileFileExecuteMessage = compileFile(userCodeFile,language);
         System.out.println(compileFileExecuteMessage);
+        if(compileFileExecuteMessage.getMessage()=="编译错误")
+        {
+            ExecuteCodeResponse notice=new ExecuteCodeResponse();
+            List<String> list=new ArrayList<>();
+            list.add("编译错误");
+            notice.setOutputList(list);
+            boolean b = deleteFile(userCodeFile);
+            if (!b) {
+                log.error("deleteFile error, userCodeFilePath = {}", userCodeFile.getAbsolutePath());
+            }
+            return  notice;
+        }
 
         // 3. 执行代码，得到输出结果
         List<ExecuteMessage> executeMessageList = runFile(userCodeFile,language,inputList);
@@ -109,7 +121,14 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
             Process compileProcess = Runtime.getRuntime().exec(compileCmd);
             ExecuteMessage executeMessage = ProcessUtils.runProcessAndGetMessage(compileProcess, "编译");
             if (executeMessage.getExitValue() != 0) {
-                throw new RuntimeException("编译错误");
+                try {
+                    throw new RuntimeException("编译错误");
+                } catch (RuntimeException e) {
+                    // 处理异常
+                    System.out.println("发生异常：" + e.getMessage());
+                    executeMessage.setMessage("编译错误");
+                    return executeMessage;
+                }
             }
             return executeMessage;
         } catch (Exception e) {
