@@ -189,8 +189,9 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
             try {
                 Process runProcess = Runtime.getRuntime().exec(runCmd);
                 ExecuteMessage  executeMessage = ProcessUtils.runInteractProcessAndGetMessage(runProcess, ans);
-                System.out.println(executeMessage);
+                System.out.println("返回结果"+executeMessage.getMessage());
                 executeMessageList.add(executeMessage);
+                System.out.println(executeMessageList);
             } catch (Exception e) {
                 throw new RuntimeException("执行错误", e);
             }
@@ -209,19 +210,21 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
         List<String> outputList = new ArrayList<>();
 
         for (ExecuteMessage executeMessage : executeMessageList) {
-            System.out.println("executeMessage："+executeMessage);
+            System.out.println("executeMessage.getMessage()："+executeMessage.getMessage());
+            String str=executeMessage.getMessage();
+            Integer ans=str.length() - str.replaceAll("\n", "").length();
+            System.out.println("行数"+ans);
             String errorMessage = executeMessage.getErrorMessage();
             if (StrUtil.isNotBlank(errorMessage)) {
                 // 用户提交的代码执行中存在错误
                 break;
             }
             outputList.add(executeMessage.getMessage());
-
+            System.out.println("输出"+outputList);
         }
         // 正常运行完成
-
         executeCodeResponse.setOutputList(outputList);
-
+        System.out.println("输出2"+executeCodeResponse.getOutputList());
         return executeCodeResponse;
     }
 

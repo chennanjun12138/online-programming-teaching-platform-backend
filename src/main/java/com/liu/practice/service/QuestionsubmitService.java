@@ -101,7 +101,7 @@ public class QuestionsubmitService extends CodeSandboxTemplate {
                 .build();
         ExecuteCodeResponse executeCodeResponse=super.executeCode(executeCodeRequest);
         List<String> outputList = executeCodeResponse.getOutputList();
-        log.info("判题成功");
+        log.info("判题成功"+outputList);
         return  outputList;
     }
     private boolean save(Questionsubmit questionSubmit) {

@@ -129,7 +129,7 @@ public class ProcessUtils {
             while ((compileOutputLine = bufferedReader.readLine()) != null) {
                 log.info(compileOutputLine);
                 compileOutputStringBuilder.append(compileOutputLine);
-                compileOutputStringBuilder.append(" ");
+                compileOutputStringBuilder.append("\n");
             }
             executeMessage.setMessage(compileOutputStringBuilder.toString());
             //资源释放
