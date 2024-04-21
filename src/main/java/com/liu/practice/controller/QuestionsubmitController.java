@@ -123,6 +123,10 @@ public class QuestionsubmitController {
         {
             return Result.error("编译错误");
         }
+        if(judgeInfo.get(0)=="读取超时")
+        {
+            return Result.error("读取超时");
+        }
         return Result.success(judgeInfo);
     }
     @DeleteMapping("/{id}")

@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +44,7 @@ public class ProcessUtils {
              executeMessage.setExitValue(exitValue);
             if(exitValue==0)
             {
-                System.out.println(opName+"成功");
+                log.info(opName+"成功");
                 //分批获得进程的正常输出
                 BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
                 List<String> outputStrList = new ArrayList<>();
@@ -56,7 +58,7 @@ public class ProcessUtils {
             }
             else
             {
-                System.out.println(opName+"失败。错误码："+exitValue);
+                log.info(opName+"失败。错误码："+exitValue);
                 //分批获得进程的正常输出
                 BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
                 List<String> outputStrList = new ArrayList<>();
@@ -117,20 +119,41 @@ public class ProcessUtils {
             }
 
             log.info(join);
-
             outputStreamWriter.write(join);
             //相当于按了回车，执行输入的发送
             outputStreamWriter.flush();
             //分批获得进程的正常输出
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+
             StringBuilder compileOutputStringBuilder = new StringBuilder();
+
             //逐行读取
             String compileOutputLine;
-            while ((compileOutputLine = bufferedReader.readLine()) != null) {
-                log.info(compileOutputLine);
-                compileOutputStringBuilder.append(compileOutputLine);
-                compileOutputStringBuilder.append("\n");
-            }
+            long startTime = System.currentTimeMillis();
+            log.info("开始时间"+startTime);
+            long timeout = 5000; // 设置超时时间
+            boolean timeoutCondition =true;
+
+                while (!bufferedReader.ready()) {
+
+                    // 检查是否有可读取的数据
+                    if ((System.currentTimeMillis() - startTime) > timeout) {
+                        log.info("读取超时");
+                        timeoutCondition=false;
+                        compileOutputStringBuilder.append("读取超时");
+                        break;
+                    }
+                }
+                if(timeoutCondition)
+                {
+                    while ((compileOutputLine = bufferedReader.readLine()) != null) {
+                        log.info(compileOutputLine);
+                        compileOutputStringBuilder.append(compileOutputLine);
+                        compileOutputStringBuilder.append("\n");
+                    }
+                }
+
             executeMessage.setMessage(compileOutputStringBuilder.toString());
             //资源释放
             outputStreamWriter.close();

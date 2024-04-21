@@ -7,12 +7,12 @@ spring:
       max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://sh-cynosdbmysql-grp-1r8rxmmy.sql.tencentcdb.com:26631/springboot?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: root
-    password: Aa7531594862!
-#    url: jdbc:mysql://127.0.0.1:3306/springboot?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+#    url: jdbc:mysql://sh-cynosdbmysql-grp-1r8rxmmy.sql.tencentcdb.com:26631/springboot?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
 #    username: root
-#    password: 123456
+#    password: Aa7531594862!
+    url: jdbc:mysql://127.0.0.1:3306/springboot?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
 
   main:
     allow-circular-references: true
