@@ -141,6 +141,10 @@ public class ProcessUtils {
                     if ((System.currentTimeMillis() - startTime) > timeout) {
                         log.info("读取超时");
                         timeoutCondition=false;
+                        outputStreamWriter.close();
+                        outputStream.close();
+                        inputStream.close();
+                        runProcess.destroy();
                         compileOutputStringBuilder.append("读取超时");
                         break;
                     }

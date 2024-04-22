@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Java 代码沙箱模板方法的实现
+ * 代码沙箱模板方法的实现
  */
 @Slf4j
 public abstract class CodeSandboxTemplate implements CodeSandbox{
@@ -188,10 +188,15 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
             }
             try {
                 Process runProcess = Runtime.getRuntime().exec(runCmd);
-                ExecuteMessage  executeMessage = ProcessUtils.runInteractProcessAndGetMessage(runProcess, ans);
-                System.out.println("返回结果"+executeMessage.getMessage());
-                executeMessageList.add(executeMessage);
-                System.out.println(executeMessageList);
+                System.out.println("输入内容"+ans);
+                if(ans!="")
+                {
+                    ExecuteMessage  executeMessage = ProcessUtils.runInteractProcessAndGetMessage(runProcess, ans);
+                    System.out.println("返回结果"+executeMessage.getMessage());
+                    executeMessageList.add(executeMessage);
+                    System.out.println(executeMessageList);
+                }
+
             } catch (Exception e) {
                 throw new RuntimeException("执行错误", e);
             }
