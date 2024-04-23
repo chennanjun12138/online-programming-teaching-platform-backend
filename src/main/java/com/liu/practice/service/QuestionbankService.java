@@ -261,7 +261,15 @@ public class QuestionbankService {
              }
              for(String i:res)
              {
+                 if(i.equals(""))
+                 {
+                     continue;
+                 }
                  Homework ans=homeworkDao.findbyid(Integer.parseInt(i));
+                 if(ans==null)
+                 {
+                     continue;
+                 }
                  String homworkcontent=ans.getContent();
                  String  content1 = homworkcontent.substring(1, homworkcontent.length() - 1);
 

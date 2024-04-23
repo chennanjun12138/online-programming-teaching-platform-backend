@@ -22,6 +22,8 @@ public class ClassController {
 
     @Resource
     private ClassService classService;
+    @Resource
+    private UserService userService;
     @GetMapping("/search")
     public Result findBySearch(Params params) {
         PageInfo<Class> info = classService.findBySearch(params);
@@ -44,7 +46,17 @@ public class ClassController {
     }
     @PostMapping
     public Result save(@RequestBody  Class book) {
+        User user=userService.findByname(book.getAuthor());
+        if(user==null)
+        {
+            return Result.error("该作者不存在");
+        }
+        if(!"ROLE_TEACHER".equals(user.getRole()))
+        {
+            return Result.error("该作者不是教师");
+        }
         if (book.getId() == null) {
+
             classService.add(book);
         } else {
             classService.update(book);

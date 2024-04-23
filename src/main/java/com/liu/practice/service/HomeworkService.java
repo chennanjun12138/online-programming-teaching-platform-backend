@@ -132,6 +132,10 @@ public class HomeworkService {
              for(String i:res)
              {
                  Questionbank ans=questionbankDao.findByhomework(i);
+                 if(ans==null)
+                 {
+                     continue;
+                 }
                  String belongid=ans.getBelongid();
                  String[] belong3= new String[0];
                  if(belongid.equals("[]")==false)
