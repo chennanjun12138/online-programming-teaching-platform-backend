@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface EvaluateDao extends Mapper<Evaluate> {
      List<Evaluate> findBySearch(Integer question_submitid);
+     List<Evaluate> findByTeacher(Integer teacherid);
      void deletebyteacherid(Integer teacherid);
 
 }

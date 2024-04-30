@@ -8,6 +8,13 @@
 
         </where>
     </select>
+    <select id="findByTeacher" resultType="com.liu.practice.entity.Evaluate">
+        select * from evaluate
+        <where>
+            teacherid= #{teacherid}
+
+        </where>
+    </select>
     <delete id="deletebyteacherid">
         delete  from evaluate
         <where>

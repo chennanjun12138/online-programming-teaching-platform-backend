@@ -5,14 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.liu.practice.common.JwtInterceptor;
 import com.liu.practice.common.JwtTokenUtils;
 import com.liu.practice.dao.*;
-import com.liu.practice.entity.User;
-import com.liu.practice.entity.Params;
-import com.liu.practice.entity.UserVo;
+import com.liu.practice.entity.*;
+import com.liu.practice.entity.Class;
 import com.liu.practice.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.nio.cs.MS1250;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -31,6 +31,16 @@ public class UserService {
     private NotebookDao notebookDao;
     @Resource
     private EvaluateDao evaluateDao;
+    @Resource
+    private SubmitDao submitDao;
+    @Resource
+    private MessageDao messageDao;
+    @Resource
+    private ClassDao classDao;
+    @Resource
+    private HomeworkDao homeworkDao;
+    @Resource
+    private QuestionbankDao questionbankDao;
     public List<User> getAll() {
         //return adminDao.getUser();
         // 3. 使用引入的包
@@ -69,6 +79,113 @@ public class UserService {
     }
 
     public void update(User user) {
+        User OldUser=userDao.findUser(user.getId());
+        if(OldUser.getName()!=user.getName()) {
+            if("ROLE_STUDENT".equals(user.getRole()))
+            {
+                Params params=new Params();
+                params.setStudentid(OldUser.getId().toString());
+                List<Connect> connects=connectDao.findBySearch(params);
+                if(connects!= null && connects.size() > 0)
+                {
+                    for(Connect c:connects)
+                    {
+                        c.setStudentname(user.getName());
+                        connectDao.updateByPrimaryKeySelective(c);
+                    }
+                }
+                params.setUserid(OldUser.getId());
+                List<Submit> submits=  submitDao.findbystudent(params);
+                if(submits != null && submits.size() > 0)
+                {
+                    for (Submit submit:submits)
+                    {
+                        submit.setStudentname(user.getName());
+                        submitDao.updateByPrimaryKeySelective(submit);
+                    }
+                }
+
+            }
+            else if("ROLE_TEACHER".equals(user.getRole()))
+            {
+                Params params=new Params();
+                params.setAuthor(OldUser.getName());
+                List<Class> classes=classDao.findBySearch(params);
+                if(classes != null && classes.size() > 0)
+                {
+                    for (Class c:classes)
+                    {
+                        c.setAuthor(user.getName());
+                        classDao.updateByPrimaryKeySelective(c);
+                    }
+                }
+                Params params2=new Params();
+                params2.setTeachername(OldUser.getName());
+                List<Connect> connects=connectDao.findBySearch(params2);
+                if(connects!= null && connects.size() > 0)
+                {
+                    for(Connect c:connects)
+                    {
+                        c.setTeachername(user.getName());
+                        connectDao.updateByPrimaryKeySelective(c);
+                    }
+                }
+                List<Evaluate> evaluates=evaluateDao.findByTeacher(OldUser.getId());
+                if(evaluates!= null && evaluates.size() > 0)
+                {
+                    for(Evaluate e:evaluates)
+                    {
+                        e.setTeachername(user.getName());
+                        evaluateDao.updateByPrimaryKeySelective(e);
+                    }
+                }
+                Params params3=new Params();
+                params3.setTeacher(OldUser.getName());
+                List<Homework> homeworks=homeworkDao.findBySearch(params3);
+                if(homeworks!= null && homeworks.size() > 0)
+                {
+                    for(Homework e:homeworks)
+                    {
+                        e.setTeacher(user.getName());
+                        homeworkDao.updateByPrimaryKeySelective(e);
+                    }
+                }
+                Params params4=new Params();
+                params4.setCreator(OldUser.getName());
+                List<Questionbank>questionbanks=questionbankDao.findBySearch(params4);
+                if(questionbanks!= null && questionbanks.size() > 0)
+                {
+                    for(Questionbank e:questionbanks)
+                    {
+                        e.setCreator(user.getName());
+                        questionbankDao.updateByPrimaryKeySelective(e);
+                    }
+                }
+            }
+            Params params=new Params();
+            params.setSendname(OldUser.getName());
+            List<Message> messages=messageDao.findBySearch(params);
+            if(messages != null && messages.size() > 0)
+            {
+                for(Message message:messages)
+                {
+                    message.setSendname(user.getName());
+                    messageDao.updateByPrimaryKeySelective(message);
+                }
+            }
+            Params params2=new Params();
+            params2.setAcceptname(OldUser.getName());
+            List<Message> messages2=messageDao.findBySearch(params2);
+            if(messages2 != null && messages2.size() > 0)
+            {
+                for(Message message:messages2)
+                {
+                    message.setAcceptname(user.getName());
+                    messageDao.updateByPrimaryKeySelective(message);
+                }
+            }
+
+        }
         userDao.updateByPrimaryKeySelective(user);
     }
     public void updatePassword(UserVo userVo) {
