@@ -30,10 +30,5 @@
             id=#{id}
         </where>
     </select>
-    <select id="findQuestionId" resultType="com.liu.practice.entity.Questionbank">
-        select  *  from questionbank
-        <where>
-            questionid=#{questionid}
-        </where>
-    </select>
+
 </mapper>

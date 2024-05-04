@@ -31,6 +31,7 @@ public class QuestionController {
 
     @PostMapping
     public Result save(@RequestBody Question question) {
+        log.info("questionid"+question.getId().toString());
         if (question.getId() == null) {
             questionService.add(question);
         } else {

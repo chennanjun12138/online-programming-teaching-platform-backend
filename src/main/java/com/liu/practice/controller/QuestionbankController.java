@@ -60,6 +60,7 @@ public class QuestionbankController {
     @PostMapping
     public Result save(@RequestBody Questionbank questionbank) {
         Params params = new Params();
+
         params.setContent(questionbank.getQuestionid());
 
         if (questionbank.getId()== null) {
@@ -68,6 +69,10 @@ public class QuestionbankController {
             questionbank.setCreatetime(dateString);
             if(questionbankService.isJudge(questionbank.getQuestionid()))
             {
+                if(questionbank.getQuestionid()==null)
+                {
+                    return Result.error("题号不能为空");
+                }
                 questionbankService.add(questionbank);
             }
             else
@@ -78,7 +83,12 @@ public class QuestionbankController {
         } else {
             if(questionbankService.findbyid(params)==null)
             {
+
                 return Result.error("禁止修改题号");
+            }
+            if(!questionbankService.isJudge(questionbank.getQuestionid()))
+            {
+                return Result.error("该题号已经存在,禁止修改");
             }
             String oldcontent= questionbankService.findbyid(params).getBelongid();
             questionbankService.update(questionbank,oldcontent);

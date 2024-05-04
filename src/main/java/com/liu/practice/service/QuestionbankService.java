@@ -53,7 +53,7 @@ public class QuestionbankService {
 
 
     public boolean isJudge(String questionId) {
-            Questionbank ans=questionbankDao.findQuestionId(questionId);
+            Questionbank ans=questionbankDao.findByhomework(questionId);
             if(ans!=null)
             {
                 return false;
