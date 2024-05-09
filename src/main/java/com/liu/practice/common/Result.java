@@ -1,5 +1,7 @@
 package com.liu.practice.common;
-
+/**
+ * 返回结果
+ */
 public class Result {
 
     private static final String SUCCESS = "0";

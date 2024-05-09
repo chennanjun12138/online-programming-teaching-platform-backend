@@ -72,7 +72,6 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
     /**
      * 1. 把用户的代码保存为文件
      * @param code 用户代码
-     * @return
      */
     public File saveCodeToFile(String code,String language) {
         String userDir = System.getProperty("user.dir");
@@ -102,7 +101,6 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
     /**
      * 2、编译代码
      * @param userCodeFile
-     * @return
      */
     public ExecuteMessage compileFile(File userCodeFile,String language) {
 
@@ -139,8 +137,6 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
     /**
      * 3、执行文件，获得执行结果列表
      * @param userCodeFile
-     *
-     * @return
      */
     public List<ExecuteMessage> runFile(File userCodeFile,String language,List<String> inputList) {
         String userCodeParentPath = userCodeFile.getParentFile().getAbsolutePath();
@@ -208,7 +204,6 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
     /**
      * 4、获取输出结果
      * @param executeMessageList
-     * @return
      */
     public ExecuteCodeResponse getOutputResponse(List<ExecuteMessage> executeMessageList) {
         ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
@@ -236,7 +231,6 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
     /**
      * 5、删除文件
      * @param userCodeFile
-     * @return
      */
     public boolean deleteFile(File userCodeFile) {
         if (userCodeFile.getParentFile() != null) {
@@ -250,9 +244,7 @@ public abstract class CodeSandboxTemplate implements CodeSandbox{
 
     /**
      * 6、获取错误响应
-     *
      * @param e
-     * @return
      */
     private ExecuteCodeResponse getErrorResponse(Throwable e) {
         ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();

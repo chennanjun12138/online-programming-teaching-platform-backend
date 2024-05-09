@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 默认判题策略
+ * JAVA语言判题策略
  */
 public class JavalanguageJudgeStrategy implements JudgeStrategy
 {    private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);

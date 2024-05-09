@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 /**
  * 题目提交编程语言枚举
- *
  */
 public enum QuestionSubmitLanguageEnum {
 
@@ -29,8 +28,6 @@ public enum QuestionSubmitLanguageEnum {
 
     /**
      * 获取值列表
-     *
-     * @return
      */
     public static List<String> getValues() {
         return Arrays.stream(values()).map(item -> item.value).collect(Collectors.toList());
@@ -38,9 +35,6 @@ public enum QuestionSubmitLanguageEnum {
 
     /**
      * 根据 value 获取枚举
-     *
-     * @param value
-     * @return
      */
     public static QuestionSubmitLanguageEnum getEnumByValue(String value) {
         if (ObjectUtils.isEmpty(value)) {

@@ -28,7 +28,6 @@ public class ProcessUtils {
      *
      * @param runProcess
      * @param opName
-     * @return
      */
 
 
@@ -94,7 +93,6 @@ public class ProcessUtils {
      *
      * @param runProcess
      * @param args
-     * @return
      */
     public static ExecuteMessage runInteractProcessAndGetMessage(Process runProcess, String args) {
         ExecuteMessage executeMessage=new ExecuteMessage();
@@ -171,6 +169,9 @@ public class ProcessUtils {
         }
         return executeMessage;
     }
+    /**
+     * 判断字符串是否仅由字母、数字、空格和标点符号组成
+     */
     public static boolean isAllLettersAndSpaces(String str) {
 
         String regex = "^[\\p{L}\\p{N}\\s\\p{P}]+$";

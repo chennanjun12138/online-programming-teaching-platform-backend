@@ -30,8 +30,6 @@ public enum JudgeInfoMessageEnum {
 
     /**
      * 获取值列表
-     *
-     * @return
      */
     public static List<String> getValues() {
         return Arrays.stream(values()).map(item -> item.value).collect(Collectors.toList());
@@ -39,9 +37,7 @@ public enum JudgeInfoMessageEnum {
 
     /**
      * 根据 value 获取枚举
-     *
      * @param value
-     * @return
      */
     public static JudgeInfoMessageEnum getEnumByValue(String value) {
         if (ObjectUtils.isEmpty(value)) {
